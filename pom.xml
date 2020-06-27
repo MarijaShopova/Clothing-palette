@@ -19,6 +19,7 @@
         <module>order-management</module>
         <module>product-catalog</module>
         <module>shared-kernel</module>
+        <module>user-management</module>
     </modules>
 
 
