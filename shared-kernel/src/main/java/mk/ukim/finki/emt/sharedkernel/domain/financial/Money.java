@@ -19,7 +19,6 @@ public class Money implements ValueObject {
     private final int amount;
 
     public Money(@NotNull Currency currency, @NotNull int amount) {
-
         this.currency = currency;
         this.amount = amount;
     }
@@ -28,39 +27,39 @@ public class Money implements ValueObject {
         return new Money(currency, amount);
     }
 
-    public Money add(Money money){
-        if(!currency.equals(money.currency)){
+    public Money add(Money money) {
+        if (!currency.equals(money.currency)) {
             throw new IllegalArgumentException("different currency");
         }
-        return new Money(currency,amount+money.amount);
+        return new Money(currency, amount + money.amount);
     }
 
-    public Money subtract(Money money){
-        if(!currency.equals(money.currency)){
+    public Money subtract(Money money) {
+        if (!currency.equals(money.currency)) {
             throw new IllegalArgumentException("different currency");
         }
-        return new Money(currency,amount-money.amount);
+        return new Money(currency, amount - money.amount);
     }
 
-    public Money multiply(int q){
-        return new Money(currency,amount*q);
+    public Money multiply(int q) {
+        return new Money(currency, amount * q);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if(this == obj) return true;
-        if(obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
         Money money = (Money) obj;
         return amount == money.amount && currency == money.currency;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(currency,amount);
+        return Objects.hash(currency, amount);
     }
 
     @Override
     public String toString() {
-        return String.format("%s","%d",currency,amount);
+        return String.format("%s", "%d", currency, amount);
     }
 }

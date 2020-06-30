@@ -1,6 +1,7 @@
 package mk.ukim.finki.emt.sharedkernel.domain.geo;
 
 import mk.ukim.finki.emt.sharedkernel.domain.base.ValueObject;
+import mk.ukim.finki.emt.sharedkernel.domain.identity.FullName;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

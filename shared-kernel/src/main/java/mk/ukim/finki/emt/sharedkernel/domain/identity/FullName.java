@@ -1,10 +1,10 @@
-package mk.ukim.finki.emt.sharedkernel.domain.geo;
+package mk.ukim.finki.emt.sharedkernel.domain.identity;
 
 import mk.ukim.finki.emt.sharedkernel.domain.base.ValueObject;
 
 public class FullName implements ValueObject {
 
-    private String firstName;
+    private Name firstName;
 
-    private String lastName;
+    private Name lastName;
 }
