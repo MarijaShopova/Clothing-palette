@@ -1,4 +1,4 @@
-package mk.ukim.finki.emt.ordermanagement.domain.model;
+package mk.ukim.finki.emt.favouritemanagement.domain.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -10,9 +10,9 @@ import javax.persistence.Embeddable;
 @Embeddable
 @Getter
 @EqualsAndHashCode
-public class OrderId extends DomainObjectId {
+public class FavouritesId extends DomainObjectId {
 
-    public OrderId(@NonNull String id) {
+    public FavouritesId(@NonNull String id) {
         super(id);
     }
 }
