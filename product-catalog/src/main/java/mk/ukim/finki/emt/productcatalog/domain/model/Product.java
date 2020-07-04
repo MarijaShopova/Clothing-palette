@@ -5,6 +5,7 @@ import mk.ukim.finki.emt.sharedkernel.domain.base.AbstractEntity;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Money;
 import mk.ukim.finki.emt.sharedkernel.domain.identity.Image;
 import mk.ukim.finki.emt.sharedkernel.domain.identity.Name;
+import mk.ukim.finki.emt.sharedkernel.domain.measurement.Quantity;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -13,9 +14,6 @@ import java.util.Set;
 @Entity
 @Table(name = "products")
 public class Product extends AbstractEntity<ProductId> {
-
-    @EmbeddedId
-    private ProductId id;
 
     @Version
     private Long version;
@@ -68,5 +66,23 @@ public class Product extends AbstractEntity<ProductId> {
     @Override
     public ProductId id() {
         return id;
+    }
+
+    public Variant addVariant(Color color, Size size, int quantity) {
+        Variant variant = new Variant(color, size, quantity);
+        variants.add(variant);
+        return variant;
+    }
+
+    public void reduceVariantQuantity(VariantId variantId, Quantity quantity) {
+        this.variants.stream().filter(it -> it.id().equals(variantId)).forEach(it -> it.reduceQuantity(quantity));
+    }
+
+    public void increaseVariantQuantity(VariantId variantId, Quantity quantity) {
+        this.variants.stream().filter(it -> it.id().equals(variantId)).forEach(it -> it.increaseQuantity(quantity));
+    }
+
+    public Quantity totalQuantity() {
+        return variants.stream().map(Variant::getQuantity).reduce(new Quantity(0), Quantity::add);
     }
 }

@@ -6,5 +6,6 @@ public enum Category {
     PANTS,
     T_SHIRT,
     JACKET,
-    SWEATER
+    SWEATER,
+    OTHER
 }

@@ -18,6 +18,10 @@ public class Quantity implements ValueObject {
         this.value = value;
     }
 
+    public static Quantity valueOf(int value) {
+        return new Quantity(value);
+    }
+
     public Quantity add(Quantity otherQuantity) {
         checkNegative(otherQuantity.value);
         return new Quantity(value + otherQuantity.value);

@@ -11,9 +11,6 @@ import javax.persistence.*;
 @Table(name = "variants")
 public class Variant extends AbstractEntity<VariantId> {
 
-    @EmbeddedId
-    private VariantId id;
-
     @Enumerated(value = EnumType.STRING)
     private Color color;
 
@@ -24,8 +21,39 @@ public class Variant extends AbstractEntity<VariantId> {
     @AttributeOverrides({@AttributeOverride(name = "value", column = @Column(name = "quantity", nullable = false))})
     private Quantity quantity;
 
+    private Variant() {
+    }
+
+    public Variant(Color color, Size size, int quantity) {
+        this.color = color;
+        this.size = size;
+        this.quantity = Quantity.valueOf(quantity);
+    }
+
     @Override
     public VariantId id() {
         return id;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public void setSize(Size size) {
+        this.size = size;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = Quantity.valueOf(quantity);
+    }
+
+    public Quantity reduceQuantity(Quantity reduceValue) {
+        this.quantity = this.quantity.subtract(reduceValue);
+        return this.quantity;
+    }
+
+    public Quantity increaseQuantity(Quantity increaseValue) {
+        this.quantity = this.quantity.add(increaseValue);
+        return this.quantity;
     }
 }

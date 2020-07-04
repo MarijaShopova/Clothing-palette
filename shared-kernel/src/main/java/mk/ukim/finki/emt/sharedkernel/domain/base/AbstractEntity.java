@@ -1,14 +1,14 @@
 package mk.ukim.finki.emt.sharedkernel.domain.base;
 
-import javax.persistence.Id;
+import javax.persistence.EmbeddedId;
 import javax.persistence.MappedSuperclass;
 import java.util.Objects;
 
 @MappedSuperclass
 public abstract class AbstractEntity<ID extends DomainObjectId> implements IdentifiableDomainObject<ID> {
 
-    @Id
-    private ID id;
+    @EmbeddedId
+    protected ID id;
 
     public AbstractEntity() {
     }
