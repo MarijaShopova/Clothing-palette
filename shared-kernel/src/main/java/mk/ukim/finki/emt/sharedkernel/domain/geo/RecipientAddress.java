@@ -13,9 +13,10 @@ public class RecipientAddress extends Address implements ValueObject {
     @AttributeOverrides({
             @AttributeOverride(name = "firstName", column = @Column(name = "first_name", nullable = false)),
             @AttributeOverride(name = "lastName", column = @Column(name = "last_name", nullable = false))})
-    private FullName fullName;
+    private final FullName fullName;
 
-    public RecipientAddress(@NotNull String address, @NotNull String city, @NotNull String country) {
+    public RecipientAddress(@NotNull String address, @NotNull String city, @NotNull String country, String firstName, String lastName) {
         super(address, city, country);
+        this.fullName = FullName.valueOf(firstName, lastName);
     }
 }
