@@ -13,11 +13,4 @@ public class ProductCatalogApplication {
     public static void main(String[] args) {
         SpringApplication.run(ProductCatalogApplication.class, args);
     }
-
-    @Bean
-    public RemoteEventLogService orderEvents(@Value("${app.orders.url}") String serverUrl,
-                                             @Value("${app.orders.connect-timeout-ms}") int connectTimeout,
-                                             @Value("${app.orders.read-timeout-ms}") int readTimeout) {
-        return new RemoteEventLogServiceClient(serverUrl, connectTimeout, readTimeout);
-    }
 }

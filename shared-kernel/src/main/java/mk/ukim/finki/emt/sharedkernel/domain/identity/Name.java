@@ -16,6 +16,10 @@ public class Name implements ValueObject {
     @Column(nullable = false)
     private final String name;
 
+    private Name() {
+        this.name = "";
+    }
+
     public Name(@NonNull String name) {
         this.name = Objects.requireNonNull(name, "Name must not be null");
     }

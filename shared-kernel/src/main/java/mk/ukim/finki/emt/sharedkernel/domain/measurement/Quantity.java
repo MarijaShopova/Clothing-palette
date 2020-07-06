@@ -18,6 +18,10 @@ public class Quantity implements ValueObject {
         this.value = value;
     }
 
+    private Quantity() {
+        this.value = 0;
+    }
+
     public static Quantity valueOf(int value) {
         return new Quantity(value);
     }

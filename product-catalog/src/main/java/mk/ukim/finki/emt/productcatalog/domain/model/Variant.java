@@ -30,6 +30,13 @@ public class Variant extends AbstractEntity<VariantId> {
         this.quantity = Quantity.valueOf(quantity);
     }
 
+    public Variant(VariantId variantId, Color color, Size size, int quantity) {
+        super(variantId);
+        this.color = color;
+        this.size = size;
+        this.quantity = Quantity.valueOf(quantity);
+    }
+
     @Override
     public VariantId id() {
         return id;
@@ -55,5 +62,15 @@ public class Variant extends AbstractEntity<VariantId> {
     public Quantity increaseQuantity(Quantity increaseValue) {
         this.quantity = this.quantity.add(increaseValue);
         return this.quantity;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Variant{");
+        sb.append("color=").append(color);
+        sb.append(", size=").append(size);
+        sb.append(", quantity=").append(quantity);
+        sb.append('}');
+        return sb.toString();
     }
 }

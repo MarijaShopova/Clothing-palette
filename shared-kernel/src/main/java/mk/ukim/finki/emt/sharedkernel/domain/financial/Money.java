@@ -23,6 +23,11 @@ public class Money implements ValueObject {
         this.amount = amount;
     }
 
+    private Money() {
+        this.currency=null;
+        this.amount = 0;
+    }
+
     public static Money valueOf(Currency currency, int amount) {
         return new Money(currency, amount);
     }
