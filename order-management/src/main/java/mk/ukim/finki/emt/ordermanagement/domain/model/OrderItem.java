@@ -8,8 +8,8 @@ import mk.ukim.finki.emt.sharedkernel.domain.measurement.Quantity;
 
 import javax.persistence.*;
 
-@Entity
 @Getter
+@Entity
 @Table(name = "order_items")
 public class OrderItem extends AbstractEntity<OrderItemId> {
 
@@ -26,7 +26,7 @@ public class OrderItem extends AbstractEntity<OrderItemId> {
     @Column(name = "qty", nullable = false)
     private Quantity quantity;
 
-    private OrderItem() {
+    public OrderItem() {
 
     }
 
@@ -46,7 +46,7 @@ public class OrderItem extends AbstractEntity<OrderItemId> {
         this.productId = productId;
     }
 
-    public void setVariandId(VariantId variandId) {
+    public void setVariantId(VariantId variandId) {
         this.variantId = variandId;
     }
 

@@ -8,6 +8,7 @@ import mk.ukim.finki.emt.sharedkernel.domain.identity.Name;
 import mk.ukim.finki.emt.sharedkernel.domain.measurement.Quantity;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -52,6 +53,7 @@ public class Product extends AbstractEntity<ProductId> {
         this.brand = brand;
         this.category = category;
         this.price = price;
+        this.variants = new HashSet<>();
       //  this.image = image;
     }
 

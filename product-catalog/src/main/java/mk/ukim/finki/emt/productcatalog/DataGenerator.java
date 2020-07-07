@@ -7,6 +7,7 @@ import mk.ukim.finki.emt.sharedkernel.domain.financial.Currency;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Money;
 import mk.ukim.finki.emt.sharedkernel.domain.identity.Image;
 import mk.ukim.finki.emt.sharedkernel.domain.identity.Name;
+import org.aspectj.weaver.ast.Var;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,23 +45,22 @@ class DataGenerator {
 //            variants = new HashSet<>(variantRepository.findAll());
 //        }
 
-        System.out.println(variants);
 
-        if (productRepository.findAll().size() == 0) {
-            List<Product> products = new ArrayList<>();
+
+            Set<Product> products = new HashSet<>();
             products.add(createProduct(new ProductId("1"), Name.valueOf("Shirt"), "cotton",
-                    Brand.BERSHKA, Category.T_SHIRT, new Money(Currency.MKD, 500), null, variants));
+                    Brand.BERSHKA, Category.T_SHIRT, new Money(Currency.MKD, 500), variants));
             products.add(createProduct(new ProductId("2"), Name.valueOf("Skirt"), "silk",
-                    Brand.ZARA, Category.SKIRT, new Money(Currency.MKD, 1500), null, variants));
+                    Brand.ZARA, Category.SKIRT, new Money(Currency.MKD, 1500), variants));
             products.add(createProduct(new ProductId("3"), Name.valueOf("Pants"), "denim",
-                    Brand.BERSHKA, Category.PANTS, new Money(Currency.MKD, 2500), null, variants));
+                    Brand.BERSHKA, Category.PANTS, new Money(Currency.MKD, 2500), variants));
             productRepository.saveAll(products);
-        }
+
 
     }
 
     private Product createProduct(ProductId productId, Name name, String material, Brand brand,
-                                  Category category, Money price, Image image, Set<Variant> variants) {
+                                  Category category, Money price, Set<Variant> variants) {
         Product product = new Product(productId, name, material, brand, category, price);
         variants.forEach(product::addVariant);
         return product;
@@ -70,4 +70,3 @@ class DataGenerator {
         return new Variant(variantId, color, size, quantity);
     }
 }
-

@@ -1,5 +1,6 @@
 package mk.ukim.finki.emt.sharedkernel.domain.geo;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import mk.ukim.finki.emt.sharedkernel.domain.base.ValueObject;
 
@@ -7,7 +8,6 @@ import mk.ukim.finki.emt.sharedkernel.domain.base.ValueObject;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 

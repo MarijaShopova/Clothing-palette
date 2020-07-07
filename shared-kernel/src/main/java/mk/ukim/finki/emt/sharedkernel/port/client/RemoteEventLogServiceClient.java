@@ -1,5 +1,6 @@
 package mk.ukim.finki.emt.sharedkernel.port.client;
 
+import com.sun.istack.NotNull;
 import mk.ukim.finki.emt.sharedkernel.domain.base.RemoteEventLog;
 import mk.ukim.finki.emt.sharedkernel.infra.eventlog.RemoteEventLogService;
 import mk.ukim.finki.emt.sharedkernel.infra.eventlog.StoredDomainEvent;
@@ -12,7 +13,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.List;
 import java.util.Objects;

@@ -1,5 +1,6 @@
 package mk.ukim.finki.emt.ordermanagement.domain.model;
 
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.var;
 import mk.ukim.finki.emt.sharedkernel.domain.base.AbstractEntity;
@@ -15,6 +16,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Getter
 @Entity
 @Table(name = "orders")
 public class Order extends AbstractEntity<OrderId> {
@@ -43,6 +45,9 @@ public class Order extends AbstractEntity<OrderId> {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<OrderItem> items;
 
+    public Order() {
+
+    }
     public Order(@NonNull Instant orderedOn, @NonNull Currency currency, @NonNull RecipientAddress billingAddress) {
         super(DomainObjectId.randomId(OrderId.class));
         this.items = new HashSet<>();

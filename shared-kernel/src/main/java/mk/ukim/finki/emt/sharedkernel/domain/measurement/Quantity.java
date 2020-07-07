@@ -1,10 +1,10 @@
 package mk.ukim.finki.emt.sharedkernel.domain.measurement;
 
 import lombok.Getter;
+import lombok.NonNull;
 import mk.ukim.finki.emt.sharedkernel.domain.base.ValueObject;
 
 import javax.persistence.Embeddable;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Getter
@@ -13,7 +13,7 @@ public class Quantity implements ValueObject {
 
     private final int value;
 
-    public Quantity(@NotNull int value) {
+    public Quantity(@NonNull int value) {
         checkNegative(value);
         this.value = value;
     }

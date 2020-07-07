@@ -8,7 +8,6 @@ import mk.ukim.finki.emt.ordermanagement.domain.event.OrderCreated;
 import mk.ukim.finki.emt.ordermanagement.domain.event.OrderItemAdded;
 import mk.ukim.finki.emt.ordermanagement.domain.model.Order;
 import mk.ukim.finki.emt.ordermanagement.domain.model.OrderId;
-import mk.ukim.finki.emt.ordermanagement.domain.repository.OrderRepository;
 import mk.ukim.finki.emt.sharedkernel.domain.geo.RecipientAddress;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class OrderCatalog {
-
+/*
     private final OrderRepository orderRepository;
     private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -62,6 +61,6 @@ public class OrderCatalog {
     private RecipientAddress toDomainModel(@NonNull RecipientAddressForm form) {
         return new RecipientAddress(form.getAddress(),form.getCity(), form.getCountry(), form.getFirstName(), form.getLastName());
     }
-
+*/
 
 }

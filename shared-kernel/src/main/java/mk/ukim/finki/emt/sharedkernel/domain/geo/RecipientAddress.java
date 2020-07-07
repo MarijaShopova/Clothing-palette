@@ -1,10 +1,10 @@
 package mk.ukim.finki.emt.sharedkernel.domain.geo;
 
+import com.sun.istack.NotNull;
 import mk.ukim.finki.emt.sharedkernel.domain.base.ValueObject;
 import mk.ukim.finki.emt.sharedkernel.domain.identity.FullName;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Embeddable
 public class RecipientAddress extends Address implements ValueObject {
@@ -19,4 +19,5 @@ public class RecipientAddress extends Address implements ValueObject {
         super(address, city, country);
         this.fullName = FullName.valueOf(firstName, lastName);
     }
+
 }

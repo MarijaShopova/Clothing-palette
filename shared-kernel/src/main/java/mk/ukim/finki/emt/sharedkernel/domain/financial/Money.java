@@ -1,12 +1,12 @@
 package mk.ukim.finki.emt.sharedkernel.domain.financial;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import mk.ukim.finki.emt.sharedkernel.domain.base.ValueObject;
 
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Embeddable
