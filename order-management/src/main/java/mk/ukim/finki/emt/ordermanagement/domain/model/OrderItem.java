@@ -17,7 +17,7 @@ public class OrderItem extends AbstractEntity<OrderItemId> {
     private ProductId productId;
 
     @Embedded
-    private VariantId variandId;
+    private VariantId variantId;
 
     @Embedded
     private Money price;
@@ -32,7 +32,7 @@ public class OrderItem extends AbstractEntity<OrderItemId> {
 
     protected OrderItem(@NonNull ProductId productId, @NonNull VariantId variantId, @NonNull Money price, @NonNull Quantity quantity) {
         this.productId = productId;
-        this.variandId = variantId;
+        this.variantId = variantId;
         this.price = price;
         this.quantity = quantity;
     }
@@ -47,7 +47,7 @@ public class OrderItem extends AbstractEntity<OrderItemId> {
     }
 
     public void setVariandId(VariantId variandId) {
-        this.variandId = variandId;
+        this.variantId = variandId;
     }
 
     public void setPrice(Money price) {

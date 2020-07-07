@@ -3,6 +3,7 @@ package mk.ukim.finki.emt.ordermanagement.domain.model;
 import lombok.NonNull;
 import lombok.var;
 import mk.ukim.finki.emt.sharedkernel.domain.base.AbstractEntity;
+import mk.ukim.finki.emt.sharedkernel.domain.base.DomainObjectId;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Currency;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Money;
 import mk.ukim.finki.emt.sharedkernel.domain.geo.RecipientAddress;
@@ -10,15 +11,13 @@ import mk.ukim.finki.emt.sharedkernel.domain.measurement.Quantity;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "orders")
 public class Order extends AbstractEntity<OrderId> {
-
-    @EmbeddedId
-    private OrderId id;
 
     @Version
     private Long version;
@@ -43,6 +42,15 @@ public class Order extends AbstractEntity<OrderId> {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<OrderItem> items;
+
+    public Order(@NonNull Instant orderedOn, @NonNull Currency currency, @NonNull RecipientAddress billingAddress) {
+        super(DomainObjectId.randomId(OrderId.class));
+        this.items = new HashSet<>();
+        this.currency = currency;
+        this.orderedOn = orderedOn;
+        this.billingAddress = billingAddress;
+    }
+
 
     @Override
     public OrderId id() {

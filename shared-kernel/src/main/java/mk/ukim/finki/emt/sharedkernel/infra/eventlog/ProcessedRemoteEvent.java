@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import java.util.Objects;
 
 /**
- * Internal database entity used by {@link RemoteEventProcessor} to keep track of which remote events have already been
+ * Internal database entity used by {@link RemoteEventProcessor} to keep track of which remote event have already been
  * processed.
  */
 @Entity
