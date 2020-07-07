@@ -54,7 +54,13 @@ class DataGenerator {
             products.add(createProduct(new ProductId("3"), Name.valueOf("Pants"), "denim",
                     Brand.BERSHKA, Category.PANTS, new Money(Currency.MKD, 2500), variantRepository.findAll()));
             productRepository.saveAll(products);
+            Product p = productRepository.findById(new ProductId("1")).get();
+            Variant v = variantRepository.findById(new VariantId("1")).get();
+            p.addVariant(v);
+            productRepository.save(p);
         }
+
+
 
     }
 

@@ -3,7 +3,6 @@ package mk.ukim.finki.emt.productcatalog.domain.model;
 import lombok.Getter;
 import mk.ukim.finki.emt.sharedkernel.domain.base.AbstractEntity;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Money;
-import mk.ukim.finki.emt.sharedkernel.domain.identity.Image;
 import mk.ukim.finki.emt.sharedkernel.domain.identity.Name;
 import mk.ukim.finki.emt.sharedkernel.domain.measurement.Quantity;
 

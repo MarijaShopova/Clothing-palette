@@ -3,8 +3,7 @@ package mk.ukim.finki.emt.sharedkernel.domain.identity;
 import lombok.Getter;
 import mk.ukim.finki.emt.sharedkernel.domain.base.ValueObject;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Getter
@@ -12,9 +11,11 @@ import java.util.Objects;
 public class FullName implements ValueObject {
 
     @Embedded
+    @AttributeOverrides({@AttributeOverride(name = "name", column = @Column(name = "first_name", nullable = false))})
     private final Name firstName;
 
     @Embedded
+    @AttributeOverrides({@AttributeOverride(name = "name", column = @Column(name = "last_name", nullable = false))})
     private final Name lastName;
 
     public FullName(Name firstName, Name lastName) {

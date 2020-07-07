@@ -14,16 +14,18 @@ import javax.persistence.*;
 public class OrderItem extends AbstractEntity<OrderItemId> {
 
     @Embedded
+    @AttributeOverrides({@AttributeOverride(name = "id", column = @Column(name = "product_id", nullable = false))})
     private ProductId productId;
 
     @Embedded
+    @AttributeOverrides({@AttributeOverride(name = "id", column = @Column(name = "variant_id", nullable = false))})
     private VariantId variantId;
 
     @Embedded
     private Money price;
 
     @Embedded
-    @Column(name = "qty", nullable = false)
+    @AttributeOverrides({@AttributeOverride(name = "value", column = @Column(name = "qty", nullable = false))})
     private Quantity quantity;
 
     public OrderItem() {
