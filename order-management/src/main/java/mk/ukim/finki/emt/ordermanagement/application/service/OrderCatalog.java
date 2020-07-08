@@ -50,7 +50,7 @@ public class OrderCatalog {
     @NonNull
     private Order toDomainModel(@NonNull Order order) {
         var o = new Order(Instant.now(), order.getCurrency(),
-                toDomainModel(order.getBillingAddress()), order.getState());
+                toDomainModel(order.getBillingAddress()), order.getOrderState());
        // order.getItems().forEach(item -> o.addItem(item.getProductId(), item.getQuantity(),item.getVariantId()));
         order.getItems().forEach(item -> o.addOrderItem(item));
         return o;

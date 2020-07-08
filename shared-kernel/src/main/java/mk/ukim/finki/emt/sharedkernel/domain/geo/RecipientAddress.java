@@ -23,4 +23,6 @@ public class RecipientAddress extends Address implements ValueObject {
         this.fullName = FullName.valueOf(firstName.getName(), lastName.getName());
     }
 
+
+
 }

@@ -2,21 +2,21 @@ package mk.ukim.finki.emt.productcatalog.domain.event;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NonNull;
-import mk.ukim.finki.emt.productcatalog.domain.model.FavouriteId;
+import mk.ukim.finki.emt.productcatalog.domain.model.ProductId;
 import mk.ukim.finki.emt.sharedkernel.domain.base.DomainEvent;
 
 import java.time.Instant;
 
 public class ProductDeleted implements DomainEvent {
 
-    @JsonProperty("favouriteId")
-    private final FavouriteId favouriteId;
+    @JsonProperty("productId")
+    private final ProductId productId;
 
     @JsonProperty("occurredOn")
     private final Instant occurredOn;
 
-    public ProductDeleted(FavouriteId favouriteId, Instant occurredOn) {
-        this.favouriteId = favouriteId;
+    public ProductDeleted(ProductId productId, Instant occurredOn) {
+        this.productId = productId;
         this.occurredOn = occurredOn;
     }
 
@@ -26,7 +26,7 @@ public class ProductDeleted implements DomainEvent {
     }
 
     @NonNull
-    public FavouriteId favouriteId() {
-        return favouriteId;
+    public ProductId productId() {
+        return productId;
     }
 }

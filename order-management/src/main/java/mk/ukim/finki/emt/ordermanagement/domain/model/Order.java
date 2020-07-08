@@ -29,7 +29,7 @@ public class Order extends AbstractEntity<OrderId> {
 
     @Column(name = "order_state", nullable = false)
     @Enumerated(value = EnumType.STRING)
-    private OrderState state;
+    private OrderState orderState;
 
     @Embedded
     @AttributeOverrides({
@@ -46,23 +46,22 @@ public class Order extends AbstractEntity<OrderId> {
     private Set<OrderItem> items;
 
     public Order() {
-
     }
 
     public Order(Instant orderedOn, Currency currency, RecipientAddress billingAddress, OrderState orderState) {
         this.currency = currency;
         this.orderedOn = orderedOn;
         this.billingAddress = billingAddress;
-        this.state = orderState;
+        this.orderState = orderState;
     }
 
     public Order(OrderId orderId, Instant orderedOn, Currency currency, RecipientAddress billingAddress, OrderState orderState) {
         super(orderId);
-        this.items = new HashSet<>();
-        this.currency = currency;
         this.orderedOn = orderedOn;
+        this.currency = currency;
         this.billingAddress = billingAddress;
-        this.state = orderState;
+        this.orderState = orderState;
+        this.items = new HashSet<>();
     }
 
     @Override
@@ -70,25 +69,20 @@ public class Order extends AbstractEntity<OrderId> {
         return id;
     }
 
-    public Currency getCurrency() {
-        return currency;
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 
-    public OrderState getState() {
-        return state;
+    public void setOrderedOn(Instant orderedOn) {
+        this.orderedOn = orderedOn;
     }
 
-    public RecipientAddress getBillingAddress() {
-        return billingAddress;
+    public void setBillingAddress(RecipientAddress recipientAddress) {
+        this.billingAddress = recipientAddress;
     }
 
-    public Instant getOrderedOn() {
-        return orderedOn;
-    }
-
-
-    public Set<OrderItem> getItems() {
-        return items;
+    public void setOrderState(OrderState orderState) {
+        this.orderState = orderState;
     }
 
     public Money total() {

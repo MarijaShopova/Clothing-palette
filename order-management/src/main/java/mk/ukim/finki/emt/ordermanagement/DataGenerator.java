@@ -35,7 +35,7 @@ class DataGenerator {
     public void generateData() {
 
         Set<OrderItem> orderItems;
-
+        Set<Order> orders;
 
         if (orderItemRepository.findAll().size() == 0) {
             orderItems = new HashSet<>();
@@ -47,15 +47,15 @@ class DataGenerator {
         }
 
         if (orderRepository.findAll().size() == 0) {
-            Set<Order> orders = new HashSet<>();
+            orders  = new HashSet<>();
             orders.add(createOrder(new OrderId("1"), Instant.now(), Currency.MKD, new RecipientAddress("Kata Pockova", "Strumica", "Makedonija", Name.valueOf("Ljubica"), Name.valueOf("Boneva")), OrderState.PROCESSING));
             orders.add(createOrder(new OrderId("2"), Instant.now(), Currency.MKD, new RecipientAddress("Kata Pockova", "Strumica", "Makedonija", Name.valueOf("Marija"), Name.valueOf("Shopova")), OrderState.PROCESSING));
             orderRepository.saveAll(orders);
 
-         /*   Order o = orderRepository.findById(new OrderId("1")).get();
+            Order o = orderRepository.findById(new OrderId("1")).get();
             OrderItem item = orderItemRepository.findById(new OrderItemId("2")).get();
             o.addOrderItem(item);
-            orderRepository.save(o);*/
+            orderRepository.save(o);
         }
     }
 
