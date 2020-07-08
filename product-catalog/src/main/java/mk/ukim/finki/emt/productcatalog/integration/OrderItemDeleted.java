@@ -13,7 +13,7 @@ import mk.ukim.finki.emt.sharedkernel.domain.measurement.Quantity;
 import java.time.Instant;
 
 @Getter
-public class OrderItemDeletedEvent implements DomainEvent {
+public class OrderItemDeleted implements DomainEvent {
 
     @JsonProperty("orderId")
     private final OrderId orderId;
@@ -34,8 +34,8 @@ public class OrderItemDeletedEvent implements DomainEvent {
     private final Instant occurredOn;
 
     @JsonCreator
-    public OrderItemDeletedEvent(OrderId orderId, OrderItemId orderItemId, ProductId productId,
-                                 VariantId variantId, Quantity quantity, Instant occurredOn) {
+    public OrderItemDeleted(OrderId orderId, OrderItemId orderItemId, ProductId productId,
+                            VariantId variantId, Quantity quantity, Instant occurredOn) {
         this.orderId = orderId;
         this.orderItemId = orderItemId;
         this.productId = productId;

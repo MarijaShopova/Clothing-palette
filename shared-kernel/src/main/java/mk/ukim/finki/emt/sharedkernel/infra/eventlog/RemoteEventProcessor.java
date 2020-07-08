@@ -1,5 +1,6 @@
 package mk.ukim.finki.emt.sharedkernel.infra.eventlog;
 
+import com.sun.istack.NotNull;
 import mk.ukim.finki.emt.sharedkernel.domain.base.RemoteEventLog;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.lang.NonNull;
@@ -22,11 +23,11 @@ public class RemoteEventProcessor {
     private final TransactionTemplate transactionTemplate;
 
 
-    public RemoteEventProcessor(ProcessedRemoteEventRepository processedRemoteEventRepository,
-                                Map<String, RemoteEventLogService> remoteEventLogs,
-                                Map<String, RemoteEventTranslator> remoteEventTranslators,
-                                ApplicationEventPublisher applicationEventPublisher,
-                                TransactionTemplate transactionTemplate) {
+    public RemoteEventProcessor(@NotNull ProcessedRemoteEventRepository processedRemoteEventRepository,
+                                @NotNull Map<String, RemoteEventLogService> remoteEventLogs,
+                                @NotNull Map<String, RemoteEventTranslator> remoteEventTranslators,
+                                @NotNull ApplicationEventPublisher applicationEventPublisher,
+                                @NotNull TransactionTemplate transactionTemplate) {
         this.processedRemoteEventRepository = processedRemoteEventRepository;
         this.remoteEventLogs = remoteEventLogs;
         this.remoteEventTranslators = remoteEventTranslators;
@@ -36,6 +37,7 @@ public class RemoteEventProcessor {
 
     @Scheduled(fixedDelay = 20000)
     public void processEvents() {
+        System.out.println("here");
         remoteEventLogs.values().forEach(this::processEvents);
     }
 

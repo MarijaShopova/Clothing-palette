@@ -31,6 +31,12 @@ public class Address implements ValueObject {
         this.country = country;
     }
 
+    public Address() {
+        this.address = "";
+        this.city = "";
+        this.country = "";
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

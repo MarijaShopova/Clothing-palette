@@ -18,6 +18,11 @@ public class FullName implements ValueObject {
     @AttributeOverrides({@AttributeOverride(name = "name", column = @Column(name = "last_name", nullable = false))})
     private final Name lastName;
 
+    public FullName() {
+        this.firstName = new Name("");
+        this.lastName = new Name("");
+    }
+
     public FullName(Name firstName, Name lastName) {
         this.firstName = firstName;
         this.lastName = lastName;

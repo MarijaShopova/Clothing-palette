@@ -25,6 +25,6 @@ public class OrderItemDeletedEventTranslator implements RemoteEventTranslator {
 
     @Override
     public Optional<DomainEvent> translate(StoredDomainEvent remoteEvent) {
-        return Optional.of(remoteEvent.toDomainEvent(objectMapper, OrderItemDeletedEvent.class));
+        return Optional.of(remoteEvent.toDomainEvent(objectMapper, OrderItemDeleted.class));
     }
 }

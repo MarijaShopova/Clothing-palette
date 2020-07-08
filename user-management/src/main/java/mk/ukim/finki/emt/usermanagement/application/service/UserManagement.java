@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserManagement {
 
@@ -18,6 +20,10 @@ public class UserManagement {
                           PasswordEncoder bcryptEncoder) {
         this.repository = repository;
         this.bcryptEncoder = bcryptEncoder;
+    }
+
+    public List<User> findAll() {
+        return repository.findAll();
     }
 
     public User loadUserByUsername(Username username) throws UsernameNotFoundException {

@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.var;
 import mk.ukim.finki.emt.sharedkernel.domain.base.AbstractEntity;
-import mk.ukim.finki.emt.sharedkernel.domain.base.DomainObjectId;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Currency;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Money;
 import mk.ukim.finki.emt.sharedkernel.domain.geo.RecipientAddress;
@@ -13,6 +12,7 @@ import mk.ukim.finki.emt.sharedkernel.domain.measurement.Quantity;
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -48,20 +48,20 @@ public class Order extends AbstractEntity<OrderId> {
     public Order() {
     }
 
-    public Order(Instant orderedOn, Currency currency, RecipientAddress billingAddress, OrderState orderState) {
+    public Order(Currency currency, RecipientAddress billingAddress, OrderState orderState) {
         this.currency = currency;
-        this.orderedOn = orderedOn;
+        this.orderedOn = Instant.now();
         this.billingAddress = billingAddress;
         this.orderState = orderState;
     }
 
-    public Order(OrderId orderId, Instant orderedOn, Currency currency, RecipientAddress billingAddress, OrderState orderState) {
+    public Order(OrderId orderId, Currency currency, RecipientAddress billingAddress, OrderState orderState) {
         super(orderId);
-        this.orderedOn = orderedOn;
+        this.items = new HashSet<>();
         this.currency = currency;
+        this.orderedOn = Instant.now();
         this.billingAddress = billingAddress;
         this.orderState = orderState;
-        this.items = new HashSet<>();
     }
 
     @Override
@@ -100,6 +100,10 @@ public class Order extends AbstractEntity<OrderId> {
     public OrderItem addOrderItem(OrderItem orderItem) {
         items.add(orderItem);
         return orderItem;
+    }
+
+    public void addOrderItems(List<OrderItem> orderItems) {
+        items.addAll(orderItems);
     }
 
 }

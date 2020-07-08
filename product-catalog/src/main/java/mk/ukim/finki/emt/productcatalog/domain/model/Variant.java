@@ -30,11 +30,11 @@ public class Variant extends AbstractEntity<VariantId> {
         this.quantity = Quantity.valueOf(quantity);
     }
 
-    public Variant(VariantId variantId, Color color, Size size, int quantity) {
+    public Variant(VariantId variantId, Color color, Size size, Quantity quantity) {
         super(variantId);
         this.color = color;
         this.size = size;
-        this.quantity = Quantity.valueOf(quantity);
+        this.quantity = quantity;
     }
 
     @Override

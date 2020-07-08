@@ -33,10 +33,6 @@ public class Product extends AbstractEntity<ProductId> {
     @Embedded
     private Money price;
 
-//    @Embedded
-//    @AttributeOverrides({@AttributeOverride(name = "image", column = @Column(name = "image", nullable = true))})
-//    private Image image = null;
-
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Variant> variants;
 
@@ -54,7 +50,6 @@ public class Product extends AbstractEntity<ProductId> {
         this.category = category;
         this.price = price;
         this.variants = new HashSet<>();
-      //  this.image = image;
     }
 
     public Product(Name name, String material, Brand brand, Category category, Money price) {
@@ -63,7 +58,7 @@ public class Product extends AbstractEntity<ProductId> {
         this.brand = brand;
         this.category = category;
         this.price = price;
-      //  this.image = image;
+        this.variants = new HashSet<>();
     }
 
     @Override
@@ -91,10 +86,6 @@ public class Product extends AbstractEntity<ProductId> {
         this.price = price;
     }
 
-//    public void setImage(Image image) {
-//        this.image = image;
-//    }
-
     public List<Variant> addVariants(List<Variant> variants1) {
         variants.addAll(variants1);
         return variants1;
@@ -104,12 +95,6 @@ public class Product extends AbstractEntity<ProductId> {
         variants.add(variant);
         return variant;
     }
-
-//    public Variant addVariant(Color color, Size size, int quantity) {
-//        Variant variant = new Variant(color, size, quantity);
-//        variants.add(variant);
-//        return variant;
-//    }
 
     public void reduceVariantQuantity(VariantId variantId, Quantity quantity) {
         this.variants.stream().filter(it -> it.id().equals(variantId)).forEach(it -> it.reduceQuantity(quantity));

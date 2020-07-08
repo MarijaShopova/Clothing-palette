@@ -5,12 +5,14 @@ import lombok.NonNull;
 import mk.ukim.finki.emt.favouritemanagement.domain.model.Favourite;
 import mk.ukim.finki.emt.favouritemanagement.domain.model.FavouriteId;
 import mk.ukim.finki.emt.favouritemanagement.domain.repository.FavouriteRepository;
+import mk.ukim.finki.emt.favouritemanagement.integration.ProductDeletedEvent;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @Transactional
@@ -31,5 +33,8 @@ public class FavouriteCatalog {
         return favouriteRepository.findById(favouriteId);
     }
 
-
+    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+    public void deleteFavouritesByProductId(ProductDeletedEvent event) {
+        this.favouriteRepository.deleteAllByProductId(event.getProductId());
+    }
 }

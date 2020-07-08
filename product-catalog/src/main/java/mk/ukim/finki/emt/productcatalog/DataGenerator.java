@@ -5,17 +5,15 @@ import mk.ukim.finki.emt.productcatalog.domain.repository.ProductRepository;
 import mk.ukim.finki.emt.productcatalog.domain.repository.VariantRepository;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Currency;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Money;
-import mk.ukim.finki.emt.sharedkernel.domain.identity.Image;
 import mk.ukim.finki.emt.sharedkernel.domain.identity.Name;
+import mk.ukim.finki.emt.sharedkernel.domain.measurement.Quantity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 class DataGenerator {
@@ -34,11 +32,11 @@ class DataGenerator {
         Set<Variant> variants;
         if (variantRepository.findAll().size() == 0) {
             variants = new HashSet<>();
-            variants.add(createVariant(new VariantId("1"), Color.BLACK, Size.S, 10));
-            variants.add(createVariant(new VariantId("2"), Color.RED, Size.S, 10));
-            variants.add(createVariant(new VariantId("3"), Color.GREEN, Size.XL, 10));
-            variants.add(createVariant(new VariantId("4"), Color.WHITE, Size.XS, 10));
-            variants.add(createVariant(new VariantId("5"), Color.BLACK, Size.S, 10));
+            variants.add(createVariant(new VariantId("1"), Color.BLACK, Size.S, new Quantity(10)));
+            variants.add(createVariant(new VariantId("2"), Color.RED, Size.S, new Quantity(10)));
+            variants.add(createVariant(new VariantId("3"), Color.GREEN, Size.XL, new Quantity(10)));
+            variants.add(createVariant(new VariantId("4"), Color.WHITE, Size.XS, new Quantity(10)));
+            variants.add(createVariant(new VariantId("5"), Color.BLACK, Size.S, new Quantity(10)));
             variantRepository.saveAll(variants);
         }
 
@@ -71,7 +69,7 @@ class DataGenerator {
 
     }
 
-    private Variant createVariant(VariantId variantId, Color color, Size size, int quantity) {
+    private Variant createVariant(VariantId variantId, Color color, Size size, Quantity quantity) {
         return new Variant(variantId, color, size, quantity);
     }
 }

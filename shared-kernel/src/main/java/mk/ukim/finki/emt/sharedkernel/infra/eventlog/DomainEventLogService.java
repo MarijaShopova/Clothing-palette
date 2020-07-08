@@ -2,7 +2,6 @@ package mk.ukim.finki.emt.sharedkernel.infra.eventlog;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.var;
 import mk.ukim.finki.emt.sharedkernel.domain.base.DomainEvent;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;

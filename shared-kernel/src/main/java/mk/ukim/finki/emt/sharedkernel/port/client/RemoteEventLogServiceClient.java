@@ -5,11 +5,13 @@ import mk.ukim.finki.emt.sharedkernel.domain.base.RemoteEventLog;
 import mk.ukim.finki.emt.sharedkernel.infra.eventlog.RemoteEventLogService;
 import mk.ukim.finki.emt.sharedkernel.infra.eventlog.StoredDomainEvent;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -50,23 +52,35 @@ public class RemoteEventLogServiceClient implements RemoteEventLogService {
     private RemoteEventLog retrieveLog(@NonNull URI uri) {
         ResponseEntity<List<StoredDomainEvent>> response = restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<List<StoredDomainEvent>>() {
         });
-        if(response.getStatusCode() != HttpStatus.OK) {
+        if (response.getStatusCode() != HttpStatus.OK) {
             throw new IllegalArgumentException("Could not retrieve log from URI " + uri);
         }
         return new RemoteEventLogImpl(response);
     }
+
+    private class RemoteEventLogImpl implements RemoteEventLog {
+
+        private final List<StoredDomainEvent> events;
+
+        private RemoteEventLogImpl(@NonNull ResponseEntity<List<StoredDomainEvent>> responseEntity) {
+            events = List.copyOf(Objects.requireNonNull(responseEntity.getBody()));
+        }
+
+        @Override
+        public List<StoredDomainEvent> events() {
+            return events;
+        }
+
+        @Nullable
+        private URI extractLink(@NonNull HttpHeaders headers, @NonNull String rel) {
+            return headers.get("Link").stream()
+                    .filter(link -> link.endsWith("rel=\"" + rel + "\""))
+                    .findFirst()
+                    .map(link -> link.substring(1, link.indexOf('>')))
+                    .map(URI::create)
+                    .orElse(null);
+        }
+    }
 }
 
-class RemoteEventLogImpl implements RemoteEventLog {
 
-    List<StoredDomainEvent> events;
-
-    public RemoteEventLogImpl(ResponseEntity<List<StoredDomainEvent>> response) {
-        this.events = response.getBody();
-    }
-
-    @Override
-    public List<StoredDomainEvent> events() {
-        return events;
-    }
-}

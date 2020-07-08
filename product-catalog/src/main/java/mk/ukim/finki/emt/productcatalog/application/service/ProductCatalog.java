@@ -1,11 +1,13 @@
 package mk.ukim.finki.emt.productcatalog.application.service;
 
-import mk.ukim.finki.emt.productcatalog.domain.model.Product;
-import mk.ukim.finki.emt.productcatalog.domain.model.ProductId;
+import mk.ukim.finki.emt.productcatalog.domain.event.ProductDeletedEvent;
+import mk.ukim.finki.emt.productcatalog.domain.model.*;
 import mk.ukim.finki.emt.productcatalog.domain.repository.ProductRepository;
 import mk.ukim.finki.emt.productcatalog.domain.repository.VariantRepository;
-import mk.ukim.finki.emt.productcatalog.integration.OrderItemAddedEvent;
-import mk.ukim.finki.emt.productcatalog.integration.OrderItemDeletedEvent;
+import mk.ukim.finki.emt.productcatalog.integration.OrderItemAdded;
+import mk.ukim.finki.emt.productcatalog.integration.OrderItemDeleted;
+import mk.ukim.finki.emt.productcatalog.port.request.ProductCreateRequest;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
@@ -14,8 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
+import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -23,10 +28,14 @@ public class ProductCatalog {
 
     private final ProductRepository repository;
     private final VariantRepository variantRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
-    public ProductCatalog(ProductRepository repository, VariantRepository variantRepository) {
+    public ProductCatalog(ProductRepository repository,
+                          VariantRepository variantRepository,
+                          ApplicationEventPublisher applicationEventPublisher) {
         this.repository = repository;
         this.variantRepository = variantRepository;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     public Page<Product> findPaged(Pageable pageable) {
@@ -39,17 +48,51 @@ public class ProductCatalog {
     }
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
-    public void onOrderItemAdded(OrderItemAddedEvent event) {
+    public void onOrderItemAdded(OrderItemAdded event) {
         Product product = repository.findById(event.getProductId()).orElseThrow(RuntimeException::new);
         product.reduceVariantQuantity(event.getVariantId(), event.getQuantity());
         repository.save(product);
     }
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
-    public void onOrderItemDeleted(OrderItemDeletedEvent event) {
+    public void onOrderItemDeleted(OrderItemDeleted event) {
         Product product = repository.findById(event.getProductId()).orElseThrow(RuntimeException::new);
         product.increaseVariantQuantity(event.getVariantId(), event.getQuantity());
         repository.save(product);
     }
 
+    public void deleteById(ProductId productId) {
+        this.repository.deleteById(productId);
+        this.applicationEventPublisher.publishEvent(new ProductDeletedEvent(productId, Instant.now()));
+    }
+
+    public Product create(ProductCreateRequest request) {
+        //saving product
+        Product newProduct = new Product(
+                request.getProductId(),
+                request.getName(),
+                request.getMaterial(),
+                Brand.valueOf(request.getBrand()),
+                Category.valueOf(request.getCategory()),
+                request.getPrice());
+        newProduct = repository.saveAndFlush(newProduct);
+
+        //saving variants
+        List<Variant> variants = request.getVariants()
+                .stream()
+                .map(variantCreateRequest -> {
+                    Variant variant = new Variant(
+                            variantCreateRequest.getVariantId(),
+                            Color.valueOf(variantCreateRequest.getColor()),
+                            Size.valueOf(variantCreateRequest.getSize()),
+                            variantCreateRequest.getQuantity());
+                    return variantRepository.save(variant);
+                })
+                .collect(Collectors.toList());
+
+        // adding variants to product
+        newProduct.addVariants(variants);
+
+        return repository.save(newProduct);
+    }
 }

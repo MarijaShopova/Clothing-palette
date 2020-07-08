@@ -1,44 +1,84 @@
 package mk.ukim.finki.emt.ordermanagement.application.service;
 
 import lombok.NonNull;
-import lombok.var;
 import mk.ukim.finki.emt.ordermanagement.domain.event.OrderCreated;
 import mk.ukim.finki.emt.ordermanagement.domain.event.OrderItemAdded;
 import mk.ukim.finki.emt.ordermanagement.domain.model.Order;
 import mk.ukim.finki.emt.ordermanagement.domain.model.OrderId;
+import mk.ukim.finki.emt.ordermanagement.domain.model.OrderItem;
+import mk.ukim.finki.emt.ordermanagement.domain.model.OrderState;
+import mk.ukim.finki.emt.ordermanagement.domain.repository.OrderItemRepository;
 import mk.ukim.finki.emt.ordermanagement.domain.repository.OrderRepository;
-import mk.ukim.finki.emt.sharedkernel.domain.geo.RecipientAddress;
+import mk.ukim.finki.emt.ordermanagement.port.requests.OrderCreateRequest;
+import mk.ukim.finki.emt.sharedkernel.domain.financial.Currency;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
-
 import javax.transaction.Transactional;
-
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class OrderCatalog {
 
     private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
     private final ApplicationEventPublisher applicationEventPublisher;
 
 
     public OrderCatalog(OrderRepository orderRepository,
-                        ApplicationEventPublisher applicationEventPublisher) {
+                        OrderItemRepository orderItemRepository, ApplicationEventPublisher applicationEventPublisher) {
         this.orderRepository = orderRepository;
+        this.orderItemRepository = orderItemRepository;
         this.applicationEventPublisher = applicationEventPublisher;
 
     }
 
-    public OrderId createOrder(@NonNull Order order) {
-        Objects.requireNonNull(order,"order must not be null");
-        var newOrder = orderRepository.saveAndFlush(toDomainModel(order));
-        applicationEventPublisher.publishEvent(new OrderCreated(newOrder.id(),newOrder.getOrderedOn()));
-        newOrder.getItems().forEach(orderItem -> applicationEventPublisher.publishEvent(new OrderItemAdded(newOrder.id(),orderItem.id(),orderItem.getProductId(),orderItem.getQuantity(), orderItem.getVariantId(), Instant.now())));
-        return newOrder.id();
+    public Order createOrder(OrderCreateRequest request) {
+        //saving order
+        Order newOrder = new Order(
+                request.getOrderId(),
+                Currency.valueOf(request.getCurrency()),
+                request.getRecipientAddress(),
+                OrderState.PROCESSING);
+        newOrder = orderRepository.saveAndFlush(newOrder);
+
+        //saving orderItems
+        List<OrderItem> orderItemList = request.getOrderItems()
+                .stream()
+                .map(orderItemCreateRequest -> {
+                    OrderItem orderItem = new OrderItem(
+                            orderItemCreateRequest.getOrderItemId(),
+                            orderItemCreateRequest.getProductId(),
+                            orderItemCreateRequest.getVariantId(),
+                            orderItemCreateRequest.getPrice(),
+                            orderItemCreateRequest.getQuantity());
+                    return orderItemRepository.save(orderItem);
+                })
+                .collect(Collectors.toList());
+
+        // adding order items to order
+        newOrder.addOrderItems(orderItemList);
+        newOrder = orderRepository.save(newOrder);
+
+        //publish events
+        OrderId orderId = newOrder.id();
+        applicationEventPublisher.publishEvent(new OrderCreated(newOrder.id(), newOrder.getOrderedOn()));
+        newOrder.getItems().forEach(orderItem ->
+                applicationEventPublisher.publishEvent(new OrderItemAdded(
+                        orderId,
+                        orderItem.id(),
+                        orderItem.getProductId(),
+                        orderItem.getQuantity(),
+                        orderItem.getVariantId(),
+                        Instant.now())));
+
+        //return new order
+        return newOrder;
     }
 
     @NonNull
@@ -46,22 +86,4 @@ public class OrderCatalog {
         Objects.requireNonNull(orderId, "orderId must not be null");
         return orderRepository.findById(orderId);
     }
-
-    @NonNull
-    private Order toDomainModel(@NonNull Order order) {
-        var o = new Order(Instant.now(), order.getCurrency(),
-                toDomainModel(order.getBillingAddress()), order.getOrderState());
-       // order.getItems().forEach(item -> o.addItem(item.getProductId(), item.getQuantity(),item.getVariantId()));
-        order.getItems().forEach(item -> o.addOrderItem(item));
-        return o;
-    }
-
-    @NonNull
-    private RecipientAddress toDomainModel(@NonNull RecipientAddress address) {
-        return new RecipientAddress(address.getAddress(),address.getCity(), address.getCountry(),address.getFullName().getFirstName(),address.getFullName().getLastName());
-    }
-
-
-
-
 }
