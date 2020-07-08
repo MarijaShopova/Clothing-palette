@@ -54,20 +54,24 @@ class DataGenerator {
             products.add(createProduct(new ProductId("3"), Name.valueOf("Pants"), "denim",
                     Brand.BERSHKA, Category.PANTS, new Money(Currency.MKD, 2500), variantRepository.findAll()));
             productRepository.saveAll(products);
-            Product p = productRepository.findById(new ProductId("1")).get();
-            Variant v = variantRepository.findById(new VariantId("1")).get();
-            p.addVariant(v);
-            productRepository.save(p);
+
+            Product p1 = productRepository.findById(new ProductId("1")).get();
+            Variant v1 = variantRepository.findById(new VariantId("1")).get();
+            p1.addVariant(v1);
+            productRepository.save(p1);
+
+          /*  Product p2 = productRepository.findById(new ProductId("2")).get();
+            List<Variant> v2 = variantRepository.findAll();
+            p2.addVariants(v2);
+            productRepository.save(p2);*/
         }
-
-
-
     }
 
     private Product createProduct(ProductId productId, Name name, String material, Brand brand,
                                   Category category, Money price, List<Variant> variants) {
-        Product product = new Product(productId, name, material, brand, category, price);
-        return product;
+
+        return new Product(productId, name, material, brand, category, price);
+
     }
 
     private Variant createVariant(VariantId variantId, Color color, Size size, int quantity) {

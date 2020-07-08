@@ -8,6 +8,7 @@ import mk.ukim.finki.emt.sharedkernel.domain.measurement.Quantity;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -94,7 +95,12 @@ public class Product extends AbstractEntity<ProductId> {
 //        this.image = image;
 //    }
 
-    public Variant addVariant(Variant variant) {
+    public List<Variant> addVariants(List<Variant> variants1) {
+        variants.addAll(variants1);
+        return variants1;
+    }
+
+    public Variant addVariant(Variant variant){
         variants.add(variant);
         return variant;
     }

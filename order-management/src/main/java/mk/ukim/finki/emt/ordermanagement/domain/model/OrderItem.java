@@ -32,7 +32,7 @@ public class OrderItem extends AbstractEntity<OrderItemId> {
 
     }
 
-    protected OrderItem(@NonNull ProductId productId, @NonNull VariantId variantId, @NonNull Money price, @NonNull Quantity quantity) {
+    public OrderItem(@NonNull ProductId productId, @NonNull VariantId variantId, @NonNull Money price, @NonNull Quantity quantity) {
         this.productId = productId;
         this.variantId = variantId;
         this.price = price;
