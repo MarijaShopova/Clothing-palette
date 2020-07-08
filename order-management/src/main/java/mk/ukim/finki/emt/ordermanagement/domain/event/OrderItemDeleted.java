@@ -5,6 +5,7 @@ import lombok.NonNull;
 import mk.ukim.finki.emt.ordermanagement.domain.model.OrderId;
 import mk.ukim.finki.emt.ordermanagement.domain.model.OrderItemId;
 import mk.ukim.finki.emt.ordermanagement.domain.model.ProductId;
+import mk.ukim.finki.emt.ordermanagement.domain.model.VariantId;
 import mk.ukim.finki.emt.sharedkernel.domain.base.DomainEvent;
 import mk.ukim.finki.emt.sharedkernel.domain.measurement.Quantity;
 
@@ -27,12 +28,16 @@ public class OrderItemDeleted  implements DomainEvent {
     @JsonProperty("occurredOn")
     private final Instant occurredOn;
 
-    public OrderItemDeleted(OrderId orderId, OrderItemId orderItemId, ProductId productId, Quantity quantity, Instant occurredOn) {
+    @JsonProperty("variantId")
+    private final VariantId variantId;
+
+    public OrderItemDeleted(OrderId orderId, OrderItemId orderItemId, ProductId productId, Quantity quantity, Instant occurredOn, VariantId variantId) {
         this.orderId = orderId;
         this.orderItemId = orderItemId;
         this.productId = productId;
         this.quantity = quantity;
         this.occurredOn = occurredOn;
+        this.variantId = variantId;
     }
 
     @NonNull

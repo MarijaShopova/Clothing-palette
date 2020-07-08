@@ -40,10 +40,7 @@ class DataGenerator {
             variants.add(createVariant(new VariantId("4"), Color.WHITE, Size.XS, 10));
             variants.add(createVariant(new VariantId("5"), Color.BLACK, Size.S, 10));
             variantRepository.saveAll(variants);
-  //    } else {
-//          variants = new HashSet<>(variantRepository.findAll());
         }
-
 
         if (productRepository.findAll().size() == 0) {
             Set<Product> products = new HashSet<>();

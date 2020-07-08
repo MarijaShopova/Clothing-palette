@@ -31,8 +31,15 @@ public class OrderItem extends AbstractEntity<OrderItemId> {
     public OrderItem() {
 
     }
+    public OrderItem(ProductId productId, VariantId variantId, Money price, Quantity quantity) {
+        this.productId = productId;
+        this.variantId = variantId;
+        this.price = price;
+        this.quantity = quantity;
+    }
 
-    public OrderItem(@NonNull ProductId productId, @NonNull VariantId variantId, @NonNull Money price, @NonNull Quantity quantity) {
+    public OrderItem(OrderItemId orderItemId,ProductId productId, VariantId variantId, Money price, Quantity quantity) {
+        super(orderItemId);
         this.productId = productId;
         this.variantId = variantId;
         this.price = price;
@@ -48,8 +55,8 @@ public class OrderItem extends AbstractEntity<OrderItemId> {
         this.productId = productId;
     }
 
-    public void setVariantId(VariantId variandId) {
-        this.variantId = variandId;
+    public void setVariantId(VariantId variantId) {
+        this.variantId = variantId;
     }
 
     public void setPrice(Money price) {

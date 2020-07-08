@@ -20,4 +20,16 @@ public class Favourite extends AbstractEntity<FavouriteId> {
     public FavouriteId id() {
         return id;
     }
+
+    public Favourite(){
+
+    }
+
+    public Favourite(FavouriteId favouriteId, ProductId productId, UserId userId){
+        super(favouriteId);
+        this.productId = productId;
+        this.userId = userId;
+
+    }
+
 }

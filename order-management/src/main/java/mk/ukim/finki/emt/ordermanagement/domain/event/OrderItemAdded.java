@@ -1,11 +1,11 @@
 package mk.ukim.finki.emt.ordermanagement.domain.event;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
 import lombok.NonNull;
 import mk.ukim.finki.emt.ordermanagement.domain.model.OrderId;
 import mk.ukim.finki.emt.ordermanagement.domain.model.OrderItemId;
 import mk.ukim.finki.emt.ordermanagement.domain.model.ProductId;
+import mk.ukim.finki.emt.ordermanagement.domain.model.VariantId;
 import mk.ukim.finki.emt.sharedkernel.domain.base.DomainEvent;
 import mk.ukim.finki.emt.sharedkernel.domain.measurement.Quantity;
 
@@ -25,14 +25,18 @@ public class OrderItemAdded implements DomainEvent {
     @JsonProperty("quantity")
     private final Quantity quantity;
 
+    @JsonProperty("variantId")
+    private final VariantId variantId;
+
     @JsonProperty("occurredOn")
     private final Instant occurredOn;
 
-    public OrderItemAdded(OrderId orderId, OrderItemId orderItemId, ProductId productId, Quantity quantity, Instant occurredOn) {
+    public OrderItemAdded(OrderId orderId, OrderItemId orderItemId, ProductId productId, Quantity quantity, VariantId variantId, Instant occurredOn) {
         this.orderId = orderId;
         this.orderItemId = orderItemId;
         this.productId = productId;
         this.quantity = quantity;
+        this.variantId = variantId;
         this.occurredOn = occurredOn;
     }
 

@@ -48,14 +48,22 @@ public class Order extends AbstractEntity<OrderId> {
     public Order() {
 
     }
-    public Order(@NonNull Instant orderedOn, @NonNull Currency currency, @NonNull RecipientAddress billingAddress) {
-        super(DomainObjectId.randomId(OrderId.class));
+
+    public Order(Instant orderedOn, Currency currency, RecipientAddress billingAddress, OrderState orderState) {
+        this.currency = currency;
+        this.orderedOn = orderedOn;
+        this.billingAddress = billingAddress;
+        this.state = orderState;
+    }
+
+    public Order(OrderId orderId, Instant orderedOn, Currency currency, RecipientAddress billingAddress, OrderState orderState) {
+        super(orderId);
         this.items = new HashSet<>();
         this.currency = currency;
         this.orderedOn = orderedOn;
         this.billingAddress = billingAddress;
+        this.state = orderState;
     }
-
 
     @Override
     public OrderId id() {
@@ -78,6 +86,7 @@ public class Order extends AbstractEntity<OrderId> {
         return orderedOn;
     }
 
+
     public Set<OrderItem> getItems() {
         return items;
     }
@@ -92,6 +101,11 @@ public class Order extends AbstractEntity<OrderId> {
         item.setQuantity(quantity);
         items.add(item);
         return item;
+    }
+
+    public OrderItem addOrderItem(OrderItem orderItem) {
+        items.add(orderItem);
+        return orderItem;
     }
 
 }

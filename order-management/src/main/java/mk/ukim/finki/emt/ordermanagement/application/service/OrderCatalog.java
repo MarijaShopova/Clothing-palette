@@ -2,8 +2,6 @@ package mk.ukim.finki.emt.ordermanagement.application.service;
 
 import lombok.NonNull;
 import lombok.var;
-import mk.ukim.finki.emt.ordermanagement.application.service.form.OrderForm;
-import mk.ukim.finki.emt.ordermanagement.application.service.form.RecipientAddressForm;
 import mk.ukim.finki.emt.ordermanagement.domain.event.OrderCreated;
 import mk.ukim.finki.emt.ordermanagement.domain.event.OrderItemAdded;
 import mk.ukim.finki.emt.ordermanagement.domain.model.Order;
@@ -35,11 +33,11 @@ public class OrderCatalog {
 
     }
 
-    public OrderId createOrder(@NonNull OrderForm order) {
+    public OrderId createOrder(@NonNull Order order) {
         Objects.requireNonNull(order,"order must not be null");
         var newOrder = orderRepository.saveAndFlush(toDomainModel(order));
         applicationEventPublisher.publishEvent(new OrderCreated(newOrder.id(),newOrder.getOrderedOn()));
-        newOrder.getItems().forEach(orderItem -> applicationEventPublisher.publishEvent(new OrderItemAdded(newOrder.id(),orderItem.id(),orderItem.getProductId(),orderItem.getQuantity(), Instant.now())));
+        newOrder.getItems().forEach(orderItem -> applicationEventPublisher.publishEvent(new OrderItemAdded(newOrder.id(),orderItem.id(),orderItem.getProductId(),orderItem.getQuantity(), orderItem.getVariantId(), Instant.now())));
         return newOrder.id();
     }
 
@@ -50,16 +48,17 @@ public class OrderCatalog {
     }
 
     @NonNull
-    private Order toDomainModel(@NonNull OrderForm orderForm) {
-        var order = new Order(Instant.now(), orderForm.getCurrency(),
-                toDomainModel(orderForm.getBillingAddress()));
-        orderForm.getItems().forEach(item -> order.addItem(item.getProduct(), item.getQuantity(),item.getVariant()));
-        return order;
+    private Order toDomainModel(@NonNull Order order) {
+        var o = new Order(Instant.now(), order.getCurrency(),
+                toDomainModel(order.getBillingAddress()), order.getState());
+       // order.getItems().forEach(item -> o.addItem(item.getProductId(), item.getQuantity(),item.getVariantId()));
+        order.getItems().forEach(item -> o.addOrderItem(item));
+        return o;
     }
 
     @NonNull
-    private RecipientAddress toDomainModel(@NonNull RecipientAddressForm form) {
-        return new RecipientAddress(form.getAddress(),form.getCity(), form.getCountry(), form.getFirstName(), form.getLastName());
+    private RecipientAddress toDomainModel(@NonNull RecipientAddress address) {
+        return new RecipientAddress(address.getAddress(),address.getCity(), address.getCountry(),address.getFullName().getFirstName(),address.getFullName().getLastName());
     }
 
 
