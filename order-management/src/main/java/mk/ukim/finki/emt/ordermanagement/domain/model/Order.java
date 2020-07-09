@@ -30,8 +30,6 @@ public class Order extends AbstractEntity<OrderId> {
     @Enumerated(value = EnumType.STRING)
     private OrderState orderState;
 
-
-
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "address", column = @Column(name = "billing_address", nullable = false)),
@@ -47,13 +45,6 @@ public class Order extends AbstractEntity<OrderId> {
     private Set<OrderItem> items;
 
     public Order() {
-    }
-
-    public Order(Currency currency, RecipientAddress billingAddress, OrderState orderState) {
-        this.currency = currency;
-        this.orderedOn = Instant.now();
-        this.billingAddress = billingAddress;
-        this.orderState = orderState;
     }
 
     public Order(OrderId orderId, Currency currency, RecipientAddress billingAddress, OrderState orderState) {
@@ -106,5 +97,4 @@ public class Order extends AbstractEntity<OrderId> {
     public void addOrderItems(List<OrderItem> orderItems) {
         items.addAll(orderItems);
     }
-
 }

@@ -31,5 +31,4 @@ public class FavouriteCatalogController {
         return favouriteCatalog.findById(new FavouriteId(id)).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-
 }

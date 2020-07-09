@@ -10,8 +10,6 @@ import mk.ukim.finki.emt.ordermanagement.port.requests.OrderCreateRequest;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Currency;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.event.TransactionPhase;
-import org.springframework.transaction.event.TransactionalEventListener;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
@@ -79,12 +77,11 @@ public class OrderCatalog {
         return newOrder;
     }
 
-    public OrderItem deleteOrderItem(OrderId orderId,OrderItemId orderItemId){
-        OrderItem orderItem = orderItemRepository.findById(orderItemId).get();
+    public void deleteOrderItem(OrderId orderId, OrderItemId orderItemId) {
+        OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(RuntimeException::new);
         orderItem.setDeleted(true);
-        applicationEventPublisher.publishEvent(new OrderItemDeleted(orderId,orderItemId,orderItem.getProductId(),orderItem.getQuantity(),Instant.now(),orderItem.getVariantId()));
+        applicationEventPublisher.publishEvent(new OrderItemDeleted(orderId, orderItemId, orderItem.getProductId(), orderItem.getQuantity(), Instant.now(), orderItem.getVariantId()));
         orderItemRepository.save(orderItem);
-        return orderItem;
     }
 
 
@@ -94,5 +91,15 @@ public class OrderCatalog {
         return orderRepository.findById(orderId);
     }
 
+    public List<Order> findAll() {
+        return orderRepository.findAll();
+    }
 
+    @Transactional
+    public void changeOrderState(String id, String state) {
+        OrderState orderState = OrderState.valueOf(state);
+        Order order = orderRepository.findById(new OrderId(id)).orElseThrow(RuntimeException::new);
+        order.setOrderState(orderState);
+        orderRepository.save(order);
+    }
 }

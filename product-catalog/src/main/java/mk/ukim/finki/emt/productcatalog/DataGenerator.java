@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Component
@@ -43,34 +42,34 @@ class DataGenerator {
         if (productRepository.findAll().size() == 0) {
             Set<Product> products = new HashSet<>();
             products.add(createProduct(new ProductId("1"), Name.valueOf("Shirt"), "cotton",
-                    Brand.BERSHKA, Category.T_SHIRT, new Money(Currency.MKD, 500), variantRepository.findAll()));
+                    Brand.BERSHKA, Category.T_SHIRT, new Money(Currency.MKD, 500)));
             products.add(createProduct(new ProductId("2"), Name.valueOf("Skirt"), "silk",
-                    Brand.ZARA, Category.SKIRT, new Money(Currency.MKD, 1500), variantRepository.findAll()));
+                    Brand.ZARA, Category.SKIRT, new Money(Currency.MKD, 1500)));
             products.add(createProduct(new ProductId("3"), Name.valueOf("Pants"), "denim",
-                    Brand.BERSHKA, Category.PANTS, new Money(Currency.MKD, 2500), variantRepository.findAll()));
+                    Brand.BERSHKA, Category.PANTS, new Money(Currency.MKD, 2500)));
             productRepository.saveAll(products);
 
-            Product p1 = productRepository.findById(new ProductId("1")).get();
-            Variant v1 = variantRepository.findById(new VariantId("1")).get();
-            p1.addVariant(v1);
-            productRepository.save(p1);
-
-          /*  Product p2 = productRepository.findById(new ProductId("2")).get();
-            List<Variant> v2 = variantRepository.findAll();
-            p2.addVariants(v2);
-            productRepository.save(p2);*/
+            addVariantToProduct("1", "1");
+            addVariantToProduct("1", "2");
+            addVariantToProduct("2", "3");
+            addVariantToProduct("2", "4");
+            addVariantToProduct("3", "5");
         }
     }
+
     private Product createProduct(ProductId productId, Name name, String material, Brand brand,
-                                  Category category, Money price, List<Variant> variants) {
-
+                                  Category category, Money price) {
         return new Product(productId, name, material, brand, category, price);
-
     }
 
     private Variant createVariant(VariantId variantId, Color color, Size size, Quantity quantity) {
         return new Variant(variantId, color, size, quantity);
     }
 
-
+    private void addVariantToProduct(String productId, String variantId) {
+        Product product = productRepository.findById(new ProductId(productId)).get();
+        Variant variant = variantRepository.findById(new VariantId(variantId)).get();
+        product.addVariant(variant);
+        productRepository.save(product);
+    }
 }
