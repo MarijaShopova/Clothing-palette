@@ -37,7 +37,7 @@ public class OrderCatalogController {
         return orderCatalog.createOrder(request);
     }
 
-    @PatchMapping("/{id}/item/{orderItemId}")
+    @DeleteMapping("/{id}/items/{orderItemId}")
     public void delete(@PathVariable String id,@PathVariable String orderItemId) {
         this.orderCatalog.deleteOrderItem(new OrderId(id),new OrderItemId(orderItemId));
     }

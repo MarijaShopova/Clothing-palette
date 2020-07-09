@@ -2,9 +2,8 @@ package mk.ukim.finki.emt.usermanagement.port.rest;
 
 import mk.ukim.finki.emt.usermanagement.application.service.UserManagement;
 import mk.ukim.finki.emt.usermanagement.domain.model.User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import mk.ukim.finki.emt.usermanagement.domain.model.UserId;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,5 +20,10 @@ public class UserController {
     @GetMapping
     public List<User> findAllUsers() {
         return userManagement.findAll();
+    }
+
+    @PatchMapping("/{id}")
+    public void deleteUser(@PathVariable String id) {
+        this.userManagement.deleteUser(new UserId(id));
     }
 }

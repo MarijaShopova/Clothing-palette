@@ -3,6 +3,7 @@ package mk.ukim.finki.emt.favouritemanagement.domain.repository;
 import mk.ukim.finki.emt.favouritemanagement.domain.model.Favourite;
 import mk.ukim.finki.emt.favouritemanagement.domain.model.FavouriteId;
 import mk.ukim.finki.emt.favouritemanagement.domain.model.ProductId;
+import mk.ukim.finki.emt.favouritemanagement.domain.model.UserId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,4 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface FavouriteRepository extends JpaRepository<Favourite, FavouriteId> {
 
     void deleteAllByProductId(ProductId productId);
+
+    void deleteAllByUserId(UserId userId);
 }

@@ -6,6 +6,7 @@ import mk.ukim.finki.emt.favouritemanagement.domain.model.Favourite;
 import mk.ukim.finki.emt.favouritemanagement.domain.model.FavouriteId;
 import mk.ukim.finki.emt.favouritemanagement.domain.repository.FavouriteRepository;
 import mk.ukim.finki.emt.favouritemanagement.integration.ProductDeletedEvent;
+import mk.ukim.finki.emt.favouritemanagement.integration.UserDeletedEvent;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionPhase;
@@ -36,5 +37,10 @@ public class FavouriteCatalog {
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     public void deleteFavouritesByProductId(ProductDeletedEvent event) {
         this.favouriteRepository.deleteAllByProductId(event.getProductId());
+    }
+
+    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+    public void deleteFavouritesByUserId(UserDeletedEvent event) {
+        this.favouriteRepository.deleteAllByUserId(event.getUserId());
     }
 }

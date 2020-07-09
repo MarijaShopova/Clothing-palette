@@ -5,12 +5,14 @@ import mk.ukim.finki.emt.sharedkernel.domain.base.AbstractEntity;
 import mk.ukim.finki.emt.sharedkernel.domain.authentication.Username;
 import mk.ukim.finki.emt.sharedkernel.domain.geo.Address;
 import mk.ukim.finki.emt.sharedkernel.domain.identity.FullName;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Table(name = "users")
+@Where(clause = "deleted=false")
 public class User extends AbstractEntity<UserId> {
 
     @Embedded
@@ -35,7 +37,15 @@ public class User extends AbstractEntity<UserId> {
     @Enumerated(value = EnumType.STRING)
     UserRole role;
 
-    User() {
+    @Column(name = "deleted", nullable = false)
+    private boolean deleted = false;
+
+    public User() { }
+
+    public User(UserId userId, FullName fullName, Username username){
+        super(userId);
+        this.fullName = fullName;
+        this.username = username;
     }
 
     @Override
@@ -69,5 +79,9 @@ public class User extends AbstractEntity<UserId> {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public void setDeleted(boolean deleted){
+        this.deleted = deleted;
     }
 }
