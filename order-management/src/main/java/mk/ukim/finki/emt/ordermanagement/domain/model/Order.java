@@ -2,7 +2,6 @@ package mk.ukim.finki.emt.ordermanagement.domain.model;
 
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.var;
 import mk.ukim.finki.emt.sharedkernel.domain.base.AbstractEntity;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Currency;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Money;

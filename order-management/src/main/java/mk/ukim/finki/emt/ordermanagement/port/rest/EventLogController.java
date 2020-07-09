@@ -1,4 +1,4 @@
-package mk.ukim.finki.emt.sharedkernel.port.rest;
+package mk.ukim.finki.emt.ordermanagement.port.rest;
 
 import mk.ukim.finki.emt.sharedkernel.infra.eventlog.DomainEventLogService;
 import mk.ukim.finki.emt.sharedkernel.infra.eventlog.StoredDomainEvent;
@@ -25,4 +25,3 @@ public class EventLogController {
         return ResponseEntity.ok().body(domainEventLogService.retrieveLog(lastProcessedId));
     }
 }
-

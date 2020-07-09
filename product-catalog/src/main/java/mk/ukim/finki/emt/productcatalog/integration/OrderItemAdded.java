@@ -15,14 +15,14 @@ import java.time.Instant;
 @Getter
 public class OrderItemAdded implements DomainEvent {
 
-    @JsonProperty("orderId")
-    private final OrderId orderId;
-
     @JsonProperty("orderItemId")
     private final OrderItemId orderItemId;
 
     @JsonProperty("productId")
     private final ProductId productId;
+
+    @JsonProperty("orderId")
+    private final OrderId orderId;
 
     @JsonProperty("variantId")
     private final VariantId variantId;
@@ -34,8 +34,8 @@ public class OrderItemAdded implements DomainEvent {
     private final Instant occurredOn;
 
     @JsonCreator
-    public OrderItemAdded(OrderId orderId, OrderItemId orderItemId, ProductId productId,
-                          VariantId variantId, Quantity quantity, Instant occurredOn) {
+    public OrderItemAdded(OrderItemId orderItemId, ProductId productId, OrderId orderId,
+                          Quantity quantity, VariantId variantId, Instant occurredOn) {
         this.orderId = orderId;
         this.orderItemId = orderItemId;
         this.productId = productId;

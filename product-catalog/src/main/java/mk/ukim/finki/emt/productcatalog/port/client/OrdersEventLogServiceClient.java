@@ -1,17 +1,16 @@
-package mk.ukim.finki.emt.sharedkernel.port.client;
+package mk.ukim.finki.emt.productcatalog.port.client;
 
-import com.sun.istack.NotNull;
 import mk.ukim.finki.emt.sharedkernel.domain.base.RemoteEventLog;
 import mk.ukim.finki.emt.sharedkernel.infra.eventlog.RemoteEventLogService;
 import mk.ukim.finki.emt.sharedkernel.infra.eventlog.StoredDomainEvent;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -19,13 +18,16 @@ import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 
-public class RemoteEventLogServiceClient implements RemoteEventLogService {
+@Service
+public class OrdersEventLogServiceClient implements RemoteEventLogService {
 
     private final String source;
     private final String serverUrl;
     private final RestTemplate restTemplate;
 
-    public RemoteEventLogServiceClient(@NotNull String serverUrl, int connectTimeout, int readTimeout) {
+    public OrdersEventLogServiceClient(@Value("${app.order-catalog.url}") String serverUrl,
+                                       @Value("${app.order-catalog.connect-timeout-ms}") int connectTimeout,
+                                       @Value("${app.order-catalog.read-timeout-ms}") int readTimeout) {
         this.source = Objects.requireNonNull(serverUrl, "serverUrl must not be null");
         this.serverUrl = serverUrl;
         restTemplate = new RestTemplate();
@@ -70,17 +72,5 @@ public class RemoteEventLogServiceClient implements RemoteEventLogService {
         public List<StoredDomainEvent> events() {
             return events;
         }
-
-        @Nullable
-        private URI extractLink(@NonNull HttpHeaders headers, @NonNull String rel) {
-            return headers.get("Link").stream()
-                    .filter(link -> link.endsWith("rel=\"" + rel + "\""))
-                    .findFirst()
-                    .map(link -> link.substring(1, link.indexOf('>')))
-                    .map(URI::create)
-                    .orElse(null);
-        }
     }
 }
-
-

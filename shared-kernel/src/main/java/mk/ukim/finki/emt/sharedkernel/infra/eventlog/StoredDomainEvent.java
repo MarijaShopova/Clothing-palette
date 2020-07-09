@@ -83,7 +83,8 @@ public class StoredDomainEvent {
         Objects.requireNonNull(objectMapper, "objectMapper must not be null");
         Objects.requireNonNull(domainEventClass, "domainEventClass must not be null");
         try {
-            return objectMapper.readValue(domainEventBody, domainEventClass);
+            T t= objectMapper.readValue(domainEventBody, domainEventClass);
+            return t;
         } catch (IOException ex) {
             throw new IllegalStateException("Could not deserialize domain event from JSON", ex);
         }

@@ -1,7 +1,6 @@
 package mk.ukim.finki.emt.ordermanagement.application.service;
 
 import lombok.NonNull;
-import mk.ukim.finki.emt.ordermanagement.domain.event.OrderCreated;
 import mk.ukim.finki.emt.ordermanagement.domain.event.OrderItemAdded;
 import mk.ukim.finki.emt.ordermanagement.domain.model.Order;
 import mk.ukim.finki.emt.ordermanagement.domain.model.OrderId;
@@ -67,7 +66,6 @@ public class OrderCatalog {
 
         //publish events
         OrderId orderId = newOrder.id();
-        applicationEventPublisher.publishEvent(new OrderCreated(newOrder.id(), newOrder.getOrderedOn()));
         newOrder.getItems().forEach(orderItem ->
                 applicationEventPublisher.publishEvent(new OrderItemAdded(
                         orderId,

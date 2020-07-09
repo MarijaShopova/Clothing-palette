@@ -52,15 +52,6 @@ public class Product extends AbstractEntity<ProductId> {
         this.variants = new HashSet<>();
     }
 
-    public Product(Name name, String material, Brand brand, Category category, Money price) {
-        this.name = name;
-        this.material = material;
-        this.brand = brand;
-        this.category = category;
-        this.price = price;
-        this.variants = new HashSet<>();
-    }
-
     @Override
     public ProductId id() {
         return id;
@@ -91,17 +82,9 @@ public class Product extends AbstractEntity<ProductId> {
         return variants1;
     }
 
-    public Variant addVariant(Variant variant){
+    public Variant addVariant(Variant variant) {
         variants.add(variant);
         return variant;
-    }
-
-    public void reduceVariantQuantity(VariantId variantId, Quantity quantity) {
-        this.variants.stream().filter(it -> it.id().equals(variantId)).forEach(it -> it.reduceQuantity(quantity));
-    }
-
-    public void increaseVariantQuantity(VariantId variantId, Quantity quantity) {
-        this.variants.stream().filter(it -> it.id().equals(variantId)).forEach(it -> it.increaseQuantity(quantity));
     }
 
     public Quantity totalQuantity() {

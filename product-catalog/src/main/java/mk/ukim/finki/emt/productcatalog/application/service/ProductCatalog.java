@@ -49,16 +49,16 @@ public class ProductCatalog {
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     public void onOrderItemAdded(OrderItemAdded event) {
-        Product product = repository.findById(event.getProductId()).orElseThrow(RuntimeException::new);
-        product.reduceVariantQuantity(event.getVariantId(), event.getQuantity());
-        repository.save(product);
+        Variant variant = variantRepository.findById(event.getVariantId()).orElseThrow(RuntimeException::new);;
+        variant.reduceQuantity(event.getQuantity());
+        variantRepository.save(variant);
     }
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     public void onOrderItemDeleted(OrderItemDeleted event) {
-        Product product = repository.findById(event.getProductId()).orElseThrow(RuntimeException::new);
-        product.increaseVariantQuantity(event.getVariantId(), event.getQuantity());
-        repository.save(product);
+        Variant variant = variantRepository.findById(event.getVariantId()).orElseThrow(RuntimeException::new);
+        variant.increaseQuantity(event.getQuantity());
+        variantRepository.save(variant);
     }
 
     public void deleteById(ProductId productId) {

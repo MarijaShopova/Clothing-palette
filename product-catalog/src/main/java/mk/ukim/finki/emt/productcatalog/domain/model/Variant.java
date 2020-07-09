@@ -54,14 +54,12 @@ public class Variant extends AbstractEntity<VariantId> {
         this.quantity = Quantity.valueOf(quantity);
     }
 
-    public Quantity reduceQuantity(Quantity reduceValue) {
+    public void reduceQuantity(Quantity reduceValue) {
         this.quantity = this.quantity.subtract(reduceValue);
-        return this.quantity;
     }
 
-    public Quantity increaseQuantity(Quantity increaseValue) {
+    public void increaseQuantity(Quantity increaseValue) {
         this.quantity = this.quantity.add(increaseValue);
-        return this.quantity;
     }
 
     @Override
