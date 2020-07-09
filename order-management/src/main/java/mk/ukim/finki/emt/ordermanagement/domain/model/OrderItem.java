@@ -27,6 +27,9 @@ public class OrderItem extends AbstractEntity<OrderItemId> {
     @AttributeOverrides({@AttributeOverride(name = "value", column = @Column(name = "qty", nullable = false))})
     private Quantity quantity;
 
+    @Column(name = "deleted", nullable = false)
+    private boolean deleted = false;
+
     public OrderItem() {
 
     }
@@ -64,6 +67,10 @@ public class OrderItem extends AbstractEntity<OrderItemId> {
 
     public void setQuantity(Quantity quantity) {
         this.quantity = quantity;
+    }
+
+    public void setDeleted(boolean deleted){
+        this.deleted = deleted;
     }
 
     public Money subtotal() {

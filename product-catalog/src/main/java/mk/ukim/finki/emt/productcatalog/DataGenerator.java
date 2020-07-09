@@ -61,7 +61,6 @@ class DataGenerator {
             productRepository.save(p2);*/
         }
     }
-
     private Product createProduct(ProductId productId, Name name, String material, Brand brand,
                                   Category category, Money price, List<Variant> variants) {
 
@@ -72,4 +71,6 @@ class DataGenerator {
     private Variant createVariant(VariantId variantId, Color color, Size size, Quantity quantity) {
         return new Variant(variantId, color, size, quantity);
     }
+
+
 }

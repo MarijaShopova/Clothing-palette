@@ -25,7 +25,7 @@ class ProcessedRemoteEvent implements IdentifiableDomainObject<String> {
     private long lastProcessedEventId;
 
     @SuppressWarnings("unused") // Used by JPA only
-    private ProcessedRemoteEvent() {
+    public ProcessedRemoteEvent() {
     }
 
     ProcessedRemoteEvent(String source, long lastProcessedEventId) {

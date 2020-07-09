@@ -1,6 +1,6 @@
 package mk.ukim.finki.emt.productcatalog.application.service;
 
-import mk.ukim.finki.emt.productcatalog.domain.event.ProductDeletedEvent;
+import mk.ukim.finki.emt.productcatalog.domain.event.ProductDeleted;
 import mk.ukim.finki.emt.productcatalog.domain.model.*;
 import mk.ukim.finki.emt.productcatalog.domain.repository.ProductRepository;
 import mk.ukim.finki.emt.productcatalog.domain.repository.VariantRepository;
@@ -61,9 +61,10 @@ public class ProductCatalog {
         variantRepository.save(variant);
     }
 
-    public void deleteById(ProductId productId) {
-        this.repository.deleteById(productId);
-        this.applicationEventPublisher.publishEvent(new ProductDeletedEvent(productId, Instant.now()));
+    public void delete(ProductId productId) {
+        repository.findById(productId).get().setDeleted(true);
+        applicationEventPublisher.publishEvent(new ProductDeleted(productId, Instant.now()));
+       // this.repository.deleteById(productId);
     }
 
     public Product create(ProductCreateRequest request) {

@@ -7,7 +7,7 @@ import mk.ukim.finki.emt.sharedkernel.domain.base.DomainEvent;
 
 import java.time.Instant;
 
-public class ProductDeletedEvent implements DomainEvent {
+public class ProductDeleted implements DomainEvent {
 
     @JsonProperty("productId")
     private final ProductId productId;
@@ -15,12 +15,13 @@ public class ProductDeletedEvent implements DomainEvent {
     @JsonProperty("occurredOn")
     private final Instant occurredOn;
 
-    public ProductDeletedEvent(ProductId productId, Instant occurredOn) {
+    public ProductDeleted(@NonNull ProductId productId, @NonNull Instant occurredOn) {
         this.productId = productId;
         this.occurredOn = occurredOn;
     }
 
     @Override
+    @NonNull
     public Instant occurredOn() {
         return occurredOn;
     }

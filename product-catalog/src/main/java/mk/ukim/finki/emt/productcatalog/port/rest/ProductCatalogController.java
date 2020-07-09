@@ -37,8 +37,9 @@ public class ProductCatalogController {
         return productCatalog.create(request);
     }
 
-    @DeleteMapping("/{id}")
+
+    @PatchMapping("/{id}")
     public void delete(@PathVariable String id) {
-        this.productCatalog.deleteById(new ProductId(id));
+        this.productCatalog.delete(new ProductId(id));
     }
 }

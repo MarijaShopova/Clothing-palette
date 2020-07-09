@@ -2,16 +2,16 @@ package mk.ukim.finki.emt.ordermanagement.application.service;
 
 import lombok.NonNull;
 import mk.ukim.finki.emt.ordermanagement.domain.event.OrderItemAdded;
-import mk.ukim.finki.emt.ordermanagement.domain.model.Order;
-import mk.ukim.finki.emt.ordermanagement.domain.model.OrderId;
-import mk.ukim.finki.emt.ordermanagement.domain.model.OrderItem;
-import mk.ukim.finki.emt.ordermanagement.domain.model.OrderState;
+import mk.ukim.finki.emt.ordermanagement.domain.event.OrderItemDeleted;
+import mk.ukim.finki.emt.ordermanagement.domain.model.*;
 import mk.ukim.finki.emt.ordermanagement.domain.repository.OrderItemRepository;
 import mk.ukim.finki.emt.ordermanagement.domain.repository.OrderRepository;
 import mk.ukim.finki.emt.ordermanagement.port.requests.OrderCreateRequest;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Currency;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
@@ -79,9 +79,20 @@ public class OrderCatalog {
         return newOrder;
     }
 
+    public OrderItem deleteOrderItem(OrderId orderId,OrderItemId orderItemId){
+        OrderItem orderItem = orderItemRepository.findById(orderItemId).get();
+        orderItem.setDeleted(true);
+        applicationEventPublisher.publishEvent(new OrderItemDeleted(orderId,orderItemId,orderItem.getProductId(),orderItem.getQuantity(),Instant.now(),orderItem.getVariantId()));
+        orderItemRepository.save(orderItem);
+        return orderItem;
+    }
+
+
     @NonNull
     public Optional<Order> findById(@NonNull OrderId orderId) {
         Objects.requireNonNull(orderId, "orderId must not be null");
         return orderRepository.findById(orderId);
     }
+
+
 }

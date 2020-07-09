@@ -45,7 +45,7 @@ public class StoredDomainEvent {
     private Class<? extends DomainEvent> domainEventClass;
 
     @SuppressWarnings("unused") // Used by JPA only
-    private StoredDomainEvent() {
+    public StoredDomainEvent() {
     }
 
     StoredDomainEvent(@NonNull DomainEvent domainEvent, @NonNull ObjectMapper objectMapper) {

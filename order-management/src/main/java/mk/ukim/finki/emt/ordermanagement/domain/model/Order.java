@@ -30,6 +30,8 @@ public class Order extends AbstractEntity<OrderId> {
     @Enumerated(value = EnumType.STRING)
     private OrderState orderState;
 
+
+
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "address", column = @Column(name = "billing_address", nullable = false)),

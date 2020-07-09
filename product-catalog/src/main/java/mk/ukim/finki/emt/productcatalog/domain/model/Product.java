@@ -5,6 +5,7 @@ import mk.ukim.finki.emt.sharedkernel.domain.base.AbstractEntity;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Money;
 import mk.ukim.finki.emt.sharedkernel.domain.identity.Name;
 import mk.ukim.finki.emt.sharedkernel.domain.measurement.Quantity;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -14,6 +15,7 @@ import java.util.Set;
 @Getter
 @Entity
 @Table(name = "products")
+@Where(clause = "deleted=false")
 public class Product extends AbstractEntity<ProductId> {
 
     @Version
@@ -75,6 +77,10 @@ public class Product extends AbstractEntity<ProductId> {
 
     public void setPrice(Money price) {
         this.price = price;
+    }
+
+    public void setDeleted(boolean deleted){
+        this.deleted = deleted;
     }
 
     public List<Variant> addVariants(List<Variant> variants1) {

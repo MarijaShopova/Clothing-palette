@@ -9,17 +9,17 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class ProductDeletedEventTranslator implements RemoteEventTranslator {
+public class UserDeletedEventTranslator implements RemoteEventTranslator {
 
     private final ObjectMapper objectMapper;
 
-    public ProductDeletedEventTranslator(ObjectMapper objectMapper) {
+    public UserDeletedEventTranslator(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
     @Override
     public boolean supports(StoredDomainEvent storedDomainEvent) {
-        return storedDomainEvent.domainEventClassName().equals("mk.ukim.finki.emt.productcatalog.domain.event.ProductDeleted");
+        return storedDomainEvent.domainEventClassName().equals("mk.ukim.finki.emt.usermanagement.domain.event.UserDeleted");
     }
 
     @Override

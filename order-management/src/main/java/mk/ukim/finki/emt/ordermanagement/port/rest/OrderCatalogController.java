@@ -3,6 +3,7 @@ package mk.ukim.finki.emt.ordermanagement.port.rest;
 import mk.ukim.finki.emt.ordermanagement.application.service.OrderCatalog;
 import mk.ukim.finki.emt.ordermanagement.domain.model.Order;
 import mk.ukim.finki.emt.ordermanagement.domain.model.OrderId;
+import mk.ukim.finki.emt.ordermanagement.domain.model.OrderItemId;
 import mk.ukim.finki.emt.ordermanagement.port.requests.OrderCreateRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,5 +27,10 @@ public class OrderCatalogController {
     @PostMapping
     public Order createNewOrder(@RequestBody OrderCreateRequest request) {
         return orderCatalog.createOrder(request);
+    }
+
+    @PatchMapping("/{idOrder}/{idOrderItem}")
+    public void delete(@PathVariable String idOrder,@PathVariable String idOrderItem) {
+        this.orderCatalog.deleteOrderItem(new OrderId(idOrder),new OrderItemId(idOrderItem));
     }
 }
