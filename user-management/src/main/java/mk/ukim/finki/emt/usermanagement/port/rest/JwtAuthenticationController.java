@@ -1,8 +1,8 @@
 package mk.ukim.finki.emt.usermanagement.port.rest;
 
 import mk.ukim.finki.emt.usermanagement.application.service.AuthenticationService;
-import mk.ukim.finki.emt.usermanagement.domain.model.AuthenticationRequest;
-import mk.ukim.finki.emt.usermanagement.domain.model.AuthenticationResponse;
+import mk.ukim.finki.emt.usermanagement.port.request.AuthenticationRequest;
+import mk.ukim.finki.emt.usermanagement.port.response.AuthenticationResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

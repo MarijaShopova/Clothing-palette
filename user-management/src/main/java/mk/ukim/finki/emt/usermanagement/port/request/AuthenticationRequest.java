@@ -1,4 +1,4 @@
-package mk.ukim.finki.emt.usermanagement.domain.model;
+package mk.ukim.finki.emt.usermanagement.port.request;
 
 import lombok.Getter;
 

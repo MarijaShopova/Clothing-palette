@@ -42,10 +42,15 @@ public class User extends AbstractEntity<UserId> {
 
     public User() { }
 
-    public User(UserId userId, FullName fullName, Username username){
+    public User(UserId userId, FullName fullName, Username username, String password, String email, String mobile, Address address){
         super(userId);
         this.fullName = fullName;
         this.username = username;
+        this.password = password;
+        this.email = email;
+        this.mobile = mobile;
+        this.address = address;
+        this.role = UserRole.USER;
     }
 
     @Override

@@ -1,18 +1,15 @@
 package mk.ukim.finki.emt.ordermanagement.domain.model;
 
 import lombok.Getter;
-import lombok.NonNull;
 import mk.ukim.finki.emt.sharedkernel.domain.base.AbstractEntity;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Currency;
 import mk.ukim.finki.emt.sharedkernel.domain.financial.Money;
 import mk.ukim.finki.emt.sharedkernel.domain.geo.RecipientAddress;
-import mk.ukim.finki.emt.sharedkernel.domain.measurement.Quantity;
 
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -92,6 +89,11 @@ public class Order extends AbstractEntity<OrderId> {
 
     public OrderItem addOrderItem(OrderItem orderItem) {
         items.add(orderItem);
+        return orderItem;
+    }
+
+    public OrderItem removeOrderItem(OrderItem orderItem) {
+        items.remove(orderItem);
         return orderItem;
     }
 

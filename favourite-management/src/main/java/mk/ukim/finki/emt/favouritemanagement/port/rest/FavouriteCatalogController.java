@@ -19,7 +19,7 @@ public class FavouriteCatalogController {
     }
 
     @GetMapping
-    public List<Favourite> getFavourites(){
+    public List<Favourite> getFavourites() {
         return favouriteCatalog.findAll();
     }
 
@@ -29,8 +29,8 @@ public class FavouriteCatalogController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/{id}/{productId}")
-    public void createFavourite(@PathVariable String id, @PathVariable String productId){
-        favouriteCatalog.createFavourite(id,productId);
+    @PostMapping("/{id}")
+    public void createFavourite(@PathVariable String id, @RequestBody String productId) {
+        favouriteCatalog.createFavourite(id, productId);
     }
 }

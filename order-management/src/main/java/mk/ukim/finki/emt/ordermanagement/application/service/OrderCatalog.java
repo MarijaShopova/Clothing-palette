@@ -80,11 +80,12 @@ public class OrderCatalog {
 
     public void deleteOrderItem(OrderId orderId, OrderItemId orderItemId) {
         OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(RuntimeException::new);
-        orderItem.setDeleted(true);
+        Order order = orderRepository.findById(orderId).orElseThrow(RuntimeException::new);
         applicationEventPublisher.publishEvent(new OrderItemDeleted(orderId, orderItemId, orderItem.getProductId(), orderItem.getQuantity(), Instant.now(), orderItem.getVariantId()));
-        orderItemRepository.save(orderItem);
+        order.removeOrderItem(orderItem);
+        orderRepository.save(order);
+        orderItemRepository.deleteById(orderItemId);
     }
-
 
     @NonNull
     public Optional<Order> findById(@NonNull OrderId orderId) {

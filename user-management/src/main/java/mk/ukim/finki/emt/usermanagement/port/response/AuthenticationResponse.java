@@ -1,6 +1,7 @@
-package mk.ukim.finki.emt.usermanagement.domain.model;
+package mk.ukim.finki.emt.usermanagement.port.response;
 
 import lombok.Getter;
+import mk.ukim.finki.emt.usermanagement.domain.model.User;
 
 import java.io.Serializable;
 

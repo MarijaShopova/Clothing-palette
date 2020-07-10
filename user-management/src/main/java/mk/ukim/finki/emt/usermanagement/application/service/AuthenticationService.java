@@ -2,7 +2,7 @@ package mk.ukim.finki.emt.usermanagement.application.service;
 
 import mk.ukim.finki.emt.sharedkernel.domain.authentication.Username;
 import mk.ukim.finki.emt.usermanagement.configuration.JwtTokenUtil;
-import mk.ukim.finki.emt.usermanagement.domain.model.AuthenticationResponse;
+import mk.ukim.finki.emt.usermanagement.port.response.AuthenticationResponse;
 import mk.ukim.finki.emt.usermanagement.domain.model.User;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;

@@ -24,6 +24,6 @@ public class UserDeletedEventTranslator implements RemoteEventTranslator {
 
     @Override
     public Optional<DomainEvent> translate(StoredDomainEvent remoteEvent) {
-        return Optional.of(remoteEvent.toDomainEvent(objectMapper, ProductDeletedEvent.class));
+        return Optional.of(remoteEvent.toDomainEvent(objectMapper, UserDeletedEvent.class));
     }
 }

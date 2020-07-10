@@ -73,6 +73,4 @@ public class UsersEventLogServiceClient implements RemoteEventLogService {
             return events;
         }
     }
-
-
 }

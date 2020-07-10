@@ -5,10 +5,12 @@ import mk.ukim.finki.emt.usermanagement.domain.event.UserDeleted;
 import mk.ukim.finki.emt.usermanagement.domain.model.User;
 import mk.ukim.finki.emt.usermanagement.domain.model.UserId;
 import mk.ukim.finki.emt.usermanagement.domain.repository.UserRepository;
+import mk.ukim.finki.emt.usermanagement.port.request.UserCreateRequest;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
@@ -36,12 +38,18 @@ public class UserManagement {
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found with username: " + username.getValue()));
     }
 
-//    public User saveUser() throws IOException {
-//
-//        newAccount.setPassword(bcryptEncoder.encode(newAccount.getPassword()));
-//        return repository.save(newAccount);
-//    }
+    public void create(UserCreateRequest request) {
+        User user = new User(request.getUserId(),
+                request.getFullName(),
+                request.getUsername(),
+                bcryptEncoder.encode(request.getPassword()),
+                request.getEmail(),
+                request.getMobile(),
+                request.getAddress());
+        repository.save(user);
+    }
 
+    @Transactional
     public void deleteUser(UserId userId) {
         User user = repository.findById(userId).orElseThrow(RuntimeException::new);
         user.setDeleted(true);

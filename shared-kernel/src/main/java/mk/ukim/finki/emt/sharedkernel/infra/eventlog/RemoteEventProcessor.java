@@ -37,7 +37,6 @@ public class RemoteEventProcessor {
 
     @Scheduled(fixedDelay = 20000)
     public void processEvents() {
-        System.out.println("here");
         remoteEventLogs.values().forEach(this::processEvents);
     }
 
