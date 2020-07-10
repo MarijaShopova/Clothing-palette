@@ -4,10 +4,7 @@ import mk.ukim.finki.emt.favouritemanagement.application.service.FavouriteCatalo
 import mk.ukim.finki.emt.favouritemanagement.domain.model.Favourite;
 import mk.ukim.finki.emt.favouritemanagement.domain.model.FavouriteId;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,5 +27,10 @@ public class FavouriteCatalogController {
     public ResponseEntity<Favourite> getFavourite(@PathVariable String id) {
         return favouriteCatalog.findById(new FavouriteId(id)).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/{id}/{productId}")
+    public void createFavourite(@PathVariable String id, @PathVariable String productId){
+        favouriteCatalog.createFavourite(id,productId);
     }
 }

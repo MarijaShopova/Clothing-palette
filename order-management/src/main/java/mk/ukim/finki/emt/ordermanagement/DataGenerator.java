@@ -44,14 +44,14 @@ class DataGenerator {
 
         if (orderRepository.findAll().size() == 0) {
             orders = new HashSet<>();
-            orders.add(createOrder(new OrderId("1"), Currency.MKD, new RecipientAddress("Kata Pockova", "Strumica", "Makedonija", Name.valueOf("Ljubica"), Name.valueOf("Boneva")), OrderState.PROCESSING));
-            orders.add(createOrder(new OrderId("2"), Currency.MKD, new RecipientAddress("Kata Pockova", "Strumica", "Makedonija", Name.valueOf("Marija"), Name.valueOf("Shopova")), OrderState.PROCESSING));
+            orders.add(createOrder(new OrderId("1"), Currency.MKD, new RecipientAddress("Kata Pockova", "Strumica", "Makedonija", Name.valueOf("Ljubica"), Name.valueOf("Boneva")), OrderState.PROCESSING, new UserId("1")));
+            orders.add(createOrder(new OrderId("2"), Currency.MKD, new RecipientAddress("Kata Pockova", "Strumica", "Makedonija", Name.valueOf("Marija"), Name.valueOf("Shopova")), OrderState.PROCESSING, new UserId("1")));
             orderRepository.saveAll(orders);
 
-            addOrderItemToOrder("1","2");
-            addOrderItemToOrder("1","4");
-            addOrderItemToOrder("2","1");
-            addOrderItemToOrder("2","3");
+            addOrderItemToOrder("1", "2");
+            addOrderItemToOrder("1", "4");
+            addOrderItemToOrder("2", "1");
+            addOrderItemToOrder("2", "3");
         }
     }
 
@@ -59,8 +59,8 @@ class DataGenerator {
         return new OrderItem(orderItemId, productId, variantId, price, quantity);
     }
 
-    private Order createOrder(OrderId orderId, Currency currency, RecipientAddress address, OrderState orderState) {
-        return new Order(orderId, currency, address, orderState);
+    private Order createOrder(OrderId orderId, Currency currency, RecipientAddress address, OrderState orderState, UserId userId) {
+        return new Order(orderId, currency, address, orderState, userId);
     }
 
     private void addOrderItemToOrder(String orderId, String orderItemId) {

@@ -50,7 +50,6 @@ public class ProductCatalog {
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     public void onOrderItemAdded(OrderItemAdded event) {
         Variant variant = variantRepository.findById(event.getVariantId()).orElseThrow(RuntimeException::new);
-        ;
         variant.reduceQuantity(event.getQuantity());
         variantRepository.save(variant);
     }

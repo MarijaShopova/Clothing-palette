@@ -2,10 +2,7 @@ package mk.ukim.finki.emt.ordermanagement.domain.event;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NonNull;
-import mk.ukim.finki.emt.ordermanagement.domain.model.OrderId;
-import mk.ukim.finki.emt.ordermanagement.domain.model.OrderItemId;
-import mk.ukim.finki.emt.ordermanagement.domain.model.ProductId;
-import mk.ukim.finki.emt.ordermanagement.domain.model.VariantId;
+import mk.ukim.finki.emt.ordermanagement.domain.model.*;
 import mk.ukim.finki.emt.sharedkernel.domain.base.DomainEvent;
 import mk.ukim.finki.emt.sharedkernel.domain.measurement.Quantity;
 

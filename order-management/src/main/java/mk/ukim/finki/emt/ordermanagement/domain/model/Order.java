@@ -41,19 +41,24 @@ public class Order extends AbstractEntity<OrderId> {
     @Column(name = "ordered_on", nullable = false)
     private Instant orderedOn;
 
+    @Embedded
+    @AttributeOverrides({@AttributeOverride(name = "id", column = @Column(name = "user_id", nullable = false))})
+    private UserId userId;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<OrderItem> items;
 
     public Order() {
     }
 
-    public Order(OrderId orderId, Currency currency, RecipientAddress billingAddress, OrderState orderState) {
+    public Order(OrderId orderId, Currency currency, RecipientAddress billingAddress, OrderState orderState, UserId userId) {
         super(orderId);
         this.items = new HashSet<>();
         this.currency = currency;
         this.orderedOn = Instant.now();
         this.billingAddress = billingAddress;
         this.orderState = orderState;
+        this.userId = userId;
     }
 
     @Override
@@ -77,16 +82,12 @@ public class Order extends AbstractEntity<OrderId> {
         this.orderState = orderState;
     }
 
-    public Money total() {
-        return items.stream().map(OrderItem::subtotal).reduce(new Money(currency, 0), Money::add);
+    public void setUserId(UserId userId) {
+        this.userId = userId;
     }
 
-    public OrderItem addItem(@NonNull Product product, Quantity quantity, @NonNull Variant variant) {
-        Objects.requireNonNull(product, "Product must not be null");
-        var item = new OrderItem(product.getId(), variant.getId(), product.getPrice(), quantity);
-        item.setQuantity(quantity);
-        items.add(item);
-        return item;
+    public Money total() {
+        return items.stream().map(OrderItem::subtotal).reduce(new Money(currency, 0), Money::add);
     }
 
     public OrderItem addOrderItem(OrderItem orderItem) {
